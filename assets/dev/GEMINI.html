@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>GEMINI</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/doc_style.css" />
+</head>
+<body>
+<h1 id="sieve-of-eratosthenes-development-notes">Sieve of Eratosthenes
+Development Notes</h1>
+<p>Build Version v3.0.3+0</p>
+<p>Interactive audio-visual rhythm game and mathematical demonstration
+of the Sieve of Eratosthenes built with Flutter for Web and Android.</p>
+<hr />
+<h2 id="project-purpose-core-architecture">1. Project Purpose &amp; Core
+Architecture</h2>
+<p>The <strong>Sieve of Eratosthenes</strong> app transforms prime
+number discovery into an interactive audio-visual rhythm experience: *
+Numbers count forward at an adjustable tempo
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">0.2\text{ Hz}</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5.0</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">5.0\text{ Hz}</annotation></semantics></math>).
+* Discovered primes are assigned unique atomic musical notes from the
+overtone series and distinct vibrant colors; primes are silent when
+first discovered and only sound when they are part of a composite. *
+Composite numbers sound all their prime factors simultaneously as
+musical chords. * Prime powers
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>,</mo><mn>8</mn><mo>=</mo><msup><mn>2</mn><mn>3</mn></msup><mo>,</mo><mn>12</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">4 = 2^2, 8 = 2^3, 12 = 2^2 \times 3</annotation></semantics></math>)
+layer higher octave harmonics. * Bottom proximity dashboard renders
+continuous triangle waves:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mo stretchy="true" form="prefix">|</mo><mn>2</mn><mo>⋅</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">speed</mtext><mo>⋅</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mrow><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mrow><mi>mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">)</mo></mrow><mi>p</mi></mfrac><mo>−</mo><mn>1.0</mn><mo stretchy="true" form="postfix">|</mo></mrow></mrow><annotation encoding="application/x-tex">f(t) = \left| 2 \cdot \frac{((\text{speed} \cdot t) \pmod p)}{p} - 1.0 \right|</annotation></semantics></math>
+smoothly peaking at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.0</mn><annotation encoding="application/x-tex">1.0</annotation></semantics></math>
+at multiples and reaching
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.0</mn><annotation encoding="application/x-tex">0.0</annotation></semantics></math>
+at midpoints.</p>
+<hr />
+<h2 id="codebase-overview">2. Codebase Overview</h2>
+<pre class="text"><code>lib/
+├── main.dart             # App entry point, Dark/Purple Theme, Hero integer card, controls, harmonics toggle, &amp; mute
+├── models/
+│   ├── audio_engine.dart      # Universal audio facade with mute &amp; harmonics toggles
+│   ├── audio_engine_stub.dart # No-op audio implementation for tests/native
+│   ├── audio_engine_web.dart  # Web Audio API polyphonic piano harmonic synthesizer &amp; dynamics compressor
+│   ├── beat_clock.dart        # Stopwatch-based zero-drift clock emitting beat &amp; frame ticks
+│   ├── harmonic_palette.dart  # Note/frequency overtone definitions and golden-ratio color assignments
+│   └── sieve_engine.dart      # Sieve trial division, prime cache, and continuous proximity formula
+└── widgets/
+    ├── about_dialog.dart     # Help modal referencing Wikipedia, fredgc/sieve, and www.gchouse.org
+    ├── factor_inspector.dart # Modal bottom sheet inspecting factors, octaves, and frequencies
+    ├── game_help_dialog.dart # How-to-play modal explaining prime reflex game rules and scoring
+    ├── number_grid.dart      # Vertically expanding number stream with moving playhead cursor
+    └── proximity_dashboard.dart # Tight 104px triangle-wave progress bars (hides chord for 6-digit primes)</code></pre>
+<hr />
+<h2 id="current-implementation-status">3. Current Implementation
+Status</h2>
+<h3 id="completed-stages-1-2-3">Completed (Stages 1, 2 &amp; 3)</h3>
+<ul>
+<li><strong>Mathematical Sieve Core:</strong> Verified deterministic
+factorization, prime caching, and continuous proximity triangle wave
+calculation in <code>lib/models/sieve_engine.dart</code>.</li>
+<li><strong>Zero-Drift Beat Clock:</strong> Implemented
+<code>lib/models/beat_clock.dart</code> using <code>Stopwatch</code> +
+<code>TickerProvider</code> to prevent timer drift and provide
+continuous fractional time
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">N(t)</annotation></semantics></math>.</li>
+<li><strong>Polyphonic Acoustic Web Audio Synthesizer:</strong>
+Implemented in <code>lib/models/audio_engine_web.dart</code> using Web
+Audio API:
+<ul>
+<li>Pure harmonic oscillators and resonant overtones emulating acoustic
+piano notes.</li>
+<li>Primes are silent when first discovered, sounding their musical
+tones only when they are factors of subsequent composite numbers.</li>
+<li>Composite chords sounding all prime factors simultaneously with
+octave harmonics for powers
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>,</mo><mn>8</mn><mo>=</mo><msup><mn>2</mn><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">4 = 2^2, 8 = 2^3</annotation></semantics></math>).</li>
+<li>Configurable Harmonics Checkbox in AppBar (defaults to
+<strong>OFF</strong>): toggle between full octave harmonics for prime
+powers vs. single fundamental note.</li>
+<li>Master dynamics compressor preventing digital
+distortion/clipping.</li>
+<li>Autoplay policy unlock handling on user interaction (Play, Step,
+Reset, Mute, or Tile click).</li>
+<li>Audio mute/unmute control in AppBar.</li>
+</ul></li>
+<li><strong>Keyboard Navigation &amp; Hotkeys:</strong>
+<ul>
+<li><strong>P / p</strong>: Toggle Play / Pause.</li>
+<li><strong>Left / Right Arrow</strong>: Decrease / Increase playback
+tempo
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">0.2\text{ Hz}</annotation></semantics></math>
+increments).</li>
+<li><strong>Up / Down Arrow</strong>: Smoothly scroll the number stream
+grid
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">1/2</annotation></semantics></math>
+box up / down.</li>
+<li><strong>Spacebar</strong>: Guess next number
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">N+1</annotation></semantics></math>)
+is prime.</li>
+</ul></li>
+<li><strong>Solo Reflex Challenge Game Mode (Stage 3):</strong>
+<ul>
+<li>Silent <strong>“Guess Next (#N+1)”</strong> button positioned next
+to “Step Forward” allowing players to guess whether the upcoming number
+is prime before it plays.</li>
+<li>Live <strong>Score</strong> display with 1-point increments
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">+1</annotation></semantics></math>
+for prime,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math>
+penalty for composite clamped at 0) and color-coded score updates.</li>
+<li><strong>Visual Guess History &amp; Indicator:</strong> Number grid
+boxes display a green border for correct guesses, a red border for
+incorrect guesses, and an amber border for pending guesses.</li>
+<li><strong>Anchored Controls:</strong> Transport and game control bar
+anchored at the bottom of the layout to ensure UI stability when
+proximity waves appear or expand.</li>
+<li>Dedicated <strong>How-to-Play Rules Modal</strong>
+(<code>lib/widgets/game_help_dialog.dart</code>) explaining next-number
+prime prediction strategies (proximity waves, silent cues, factor
+rules).</li>
+<li>Streak tracking that resets on incorrect composite guesses or missed
+primes.</li>
+</ul></li>
+<li><strong>Harmonic Palette:</strong> Complete pitch frequency and
+color mappings in <code>lib/models/harmonic_palette.dart</code>.</li>
+<li><strong>Interactive UI:</strong>
+<ul>
+<li>Vertically expanding number stream grid filling available screen
+space with centered auto-scrolling playhead cursor.</li>
+<li>Tightened proximity wave dashboard (~104px per bar) displaying
+5-digit primes with notes and percentages, gracefully hiding chords for
+6-digit primes.</li>
+<li>Center hero flasher with factor composition chips and note
+frequencies.</li>
+<li>Modal factor inspector sheet with interactive note playback.</li>
+</ul></li>
+<li><strong>Help &amp; Educational Docs:</strong>
+<ul>
+<li><code>lib/widgets/about_dialog.dart</code> and
+<code>doc/about.md</code> referencing GitHub <code>fredgc/sieve</code>,
+Wikipedia, and <code>www.gchouse.org</code>.</li>
+</ul></li>
+<li><strong>Tooling &amp; Infrastructure:</strong>
+<ul>
+<li><code>icon.xcf</code> (512x512 with <code>Background</code> and
+<code>Foreground</code> layers) and automated generation via
+<code>icon-generate</code> and <code>flutter_launcher_icons</code>.</li>
+<li><code>Makefile</code> targets: <code>make ASSETS</code>,
+<code>make docs</code>, <code>make stage</code>,
+<code>make stage-release</code>, <code>make test</code>.</li>
+<li><code>setup.sh</code> with workspace hotkeys and host routing
+(<code>raven</code>: 5520, <code>jeeves</code>: 5008).</li>
+<li>Firebase project <code>fredgc-sieve</code> configured in
+<code>.firebaserc</code> and <code>firebase.json</code>.</li>
+</ul></li>
+<li><strong>Testing &amp; Quality:</strong>
+<ul>
+<li>15 unit and widget tests passing cleanly
+(<code>test/sieve_engine_test.dart</code>,
+<code>test/beat_clock_test.dart</code>,
+<code>test/widget_test.dart</code>).</li>
+<li><code>flutter analyze</code> reports 0 issues.</li>
+<li><code>flutter build web</code> compiles with zero errors.</li>
+</ul></li>
+</ul>
+<h3 id="upcoming-stages">Upcoming Stages</h3>
+<ul>
+<li><strong>Stage 4:</strong> Multiplayer room synchronization (Firebase
+Realtime Database free tier).</li>
+<li><strong>Stage 5:</strong> Google Cast TV Web Receiver mode.</li>
+</ul>
+<hr />
+<h2 id="key-developer-commands">4. Key Developer Commands</h2>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start dev session (sets up emacs, hotkeys, chrome tabs)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./setup.sh</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Run local debug server</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">./run-local-server.sh</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Build all documentation and icons</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> ASSETS</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Run tests and analysis</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> test</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> analyze</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Deploy to Firebase Hosting staging channel</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> stage</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Increment version and build numbers</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="ex">./roll_build_number.sh</span></span></code></pre></div>
+</body>
+</html>

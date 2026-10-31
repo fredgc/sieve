@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>plan</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/doc_style.css" />
+</head>
+<body>
+<h1 id="sieve-of-eratosthenes-v3.0.30">Sieve of Eratosthenes
+(v3.0.3+0)</h1>
+<h2 id="architectural-design-implementation-plan">Architectural Design
+&amp; Implementation Plan</h2>
+<hr />
+<h2 id="project-concept-core-mechanics">1. Project Concept &amp; Core
+Mechanics</h2>
+<p>The Sieve of Eratosthenes is an ancient, elegant algorithm for
+finding all prime numbers up to a given limit by iteratively marking the
+multiples of each prime as composite. This project turns the algorithm
+into a living, rhythmic, audio-visual experience and competitive
+reflex/number-sense game.</p>
+<h3 id="the-sieve-rhythm-engine">1.1 The Sieve Rhythm Engine</h3>
+<ul>
+<li><strong>Beat Clock:</strong> The engine counts forward at an
+adjustable rate (default:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.0</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow><mo>=</mo><mn>60</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> BPM</mtext></mrow></mrow><annotation encoding="application/x-tex">1.0\text{ Hz} = 60\text{ BPM}</annotation></semantics></math>).</li>
+<li><strong>State &amp; Factorization:</strong>
+<ul>
+<li>Maintains an ordered set of discovered primes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝒫</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>p</mi><mn>1</mn></msub><mo>,</mo><msub><mi>p</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\mathcal{P} = \{p_1, p_2, \dots\}</annotation></semantics></math>.</li>
+<li>For each current integer
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>≥</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">N \ge 2</annotation></semantics></math>:
+<ul>
+<li>Test
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+against all known primes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∈</mo><mi>𝒫</mi></mrow><annotation encoding="application/x-tex">p \in \mathcal{P}</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>≤</mo><msqrt><mi>N</mi></msqrt></mrow><annotation encoding="application/x-tex">p \le \sqrt{N}</annotation></semantics></math>
+(or trial division).</li>
+<li>If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+has prime factors, decompose
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+into its prime factorization:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><msubsup><mi>p</mi><mn>1</mn><msub><mi>a</mi><mn>1</mn></msub></msubsup><mo>⋅</mo><msubsup><mi>p</mi><mn>2</mn><msub><mi>a</mi><mn>2</mn></msub></msubsup><mi>⋯</mi><msubsup><mi>p</mi><mi>k</mi><msub><mi>a</mi><mi>k</mi></msub></msubsup></mrow><annotation encoding="application/x-tex">N = p_1^{a_1} \cdot p_2^{a_2} \cdots p_k^{a_k}</annotation></semantics></math></li>
+<li>If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+is divisible by no known prime,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+is prime!
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+is added to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒫</mi><annotation encoding="application/x-tex">\mathcal{P}</annotation></semantics></math>
+and triggers a new prime arrival event.</li>
+</ul></li>
+</ul></li>
+<li><strong>Audio-Visual Emission on Beat:</strong>
+<ul>
+<li>For composite
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>:
+Trigger audio tones for all prime factors
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mi>i</mi></msub><annotation encoding="application/x-tex">p_i</annotation></semantics></math>,
+sounding simultaneously as a harmonic chord.</li>
+<li>For prime
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>:
+Introduce a distinct, prominent new sound and visual celebratory
+flare.</li>
+<li>For prime powers
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">a_i &gt; 1</annotation></semantics></math>):
+Play the base prime note along with upper octaves
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>×</mi><mo>,</mo><mn>4</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">2\times, 4\times</annotation></semantics></math>)
+or higher velocity/gain per factor multiplicity.</li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="audio-design-harmonic-piano-chords">2. Audio Design &amp;
+Harmonic Piano Chords</h2>
+<h3 id="acoustic-grand-piano-samples">2.1 Acoustic Grand Piano
+Samples</h3>
+<p>Rather than purely synthetic beeps, the app uses real acoustic piano
+samples to create rich, organic chords.</p>
+<h4 id="open-source-piano-sample-libraries">Open Source Piano Sample
+Libraries:</h4>
+<ul>
+<li><strong>Tone.js Instruments / Soundfont Piano (MIT / CC0
+License):</strong>
+<ul>
+<li>Lightweight, beautifully recorded acoustic grand piano samples.</li>
+<li>Stored in compressed <code>.mp3</code> or <code>.ogg</code> format
+with key note anchors across 4–5 octaves (e.g.,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mn>2</mn></msub><annotation encoding="application/x-tex">C_2</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mn>6</mn></msub><annotation encoding="application/x-tex">C_6</annotation></semantics></math>).</li>
+<li>Total asset size is under
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.5</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> MB</mtext></mrow></mrow><annotation encoding="application/x-tex">1.5\text{ MB}</annotation></semantics></math>,
+making it instantaneous to download on mobile web.</li>
+</ul></li>
+<li><strong>Salamander Grand Piano (CC-BY 3.0):</strong>
+<ul>
+<li>Captured from a Yamaha C5 grand piano. Pristine acoustic tone with
+natural hammer strike and room resonance.</li>
+</ul></li>
+<li><strong>Playback &amp; Scaling Architecture:</strong>
+<ul>
+<li>Anchor samples (e.g.,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>2</mn></msub><mo>,</mo><msub><mi>E</mi><mn>2</mn></msub><mo>,</mo><msub><mi>G</mi><mn>2</mn></msub><mo>,</mo><msub><mi>C</mi><mn>3</mn></msub><mo>,</mo><mi>…</mi></mrow><annotation encoding="application/x-tex">C_2, E_2, G_2, C_3, \dots</annotation></semantics></math>)
+are pre-decoded into memory buffers.</li>
+<li>Intermediate pitches or higher primes are dynamically pitch-shifted
+using Web Audio buffer playback rate
+(<code>playbackRate.value = targetFreq / baseFreq</code>) or native
+audio resamplers, eliminating latency and memory bloat.</li>
+</ul></li>
+</ul>
+<h3 id="the-harmonic-prime-spectrum">2.2 The Harmonic Prime
+Spectrum</h3>
+<p>In music theory and physics, the natural overtone series is built
+from integer multiples of a fundamental frequency. We map primes to
+musical intervals so that composite numbers produce natural, pleasant
+piano chords:</p>
+<ul>
+<li><strong>Prime 2 (The Octave / Root Fundamental):</strong>
+<ul>
+<li>Pitch:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mn>3</mn></msub><annotation encoding="application/x-tex">C_3</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>130.81</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">130.81\text{ Hz}</annotation></semantics></math>).</li>
+<li>Role: The rhythmic bass heartbeat and lowest acoustic anchor.</li>
+</ul></li>
+<li><strong>Prime 3 (The Perfect Fifth):</strong>
+<ul>
+<li>Pitch:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>G</mi><mn>3</mn></msub><annotation encoding="application/x-tex">G_3</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>196.00</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">196.00\text{ Hz}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>
+ratio).</li>
+<li>Together with 2
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">N=6</annotation></semantics></math>):
+Forms an open, resonant <strong>Power Chord</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>−</mo><mi>G</mi></mrow><annotation encoding="application/x-tex">C - G</annotation></semantics></math>).</li>
+</ul></li>
+<li><strong>Prime 5 (The Major Third):</strong>
+<ul>
+<li>Pitch:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>E</mi><mn>4</mn></msub><annotation encoding="application/x-tex">E_4</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>329.63</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">329.63\text{ Hz}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>
+ratio).</li>
+<li>Together with 2 &amp; 3
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>30</mn><mo>=</mo><mn>2</mn><mo>⋅</mo><mn>3</mn><mo>⋅</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">N=30 = 2 \cdot 3 \cdot 5</annotation></semantics></math>):
+Resolves into a bright, consonant <strong>C Major Triad</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>−</mo><mi>E</mi><mo>−</mo><mi>G</mi></mrow><annotation encoding="application/x-tex">C - E - G</annotation></semantics></math>).</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>10</mn><mo>=</mo><mn>2</mn><mo>⋅</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">N=10 = 2 \cdot 5</annotation></semantics></math>:
+Major Tenth
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>−</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">C - E</annotation></semantics></math>).</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>15</mn><mo>=</mo><mn>3</mn><mo>⋅</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">N=15 = 3 \cdot 5</annotation></semantics></math>:
+Minor Third interval
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>−</mo><mi>G</mi></mrow><annotation encoding="application/x-tex">E - G</annotation></semantics></math>).</li>
+</ul></li>
+<li><strong>Prime 7 (The Harmonic / Dominant 7th):</strong>
+<ul>
+<li>Pitch:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>B</mi><mn>4</mn><mi>♭</mi></msubsup><annotation encoding="application/x-tex">B^\flat_4</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>466.16</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">466.16\text{ Hz}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>
+ratio).</li>
+<li>Together with 2, 3, 5
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>210</mn></mrow><annotation encoding="application/x-tex">N=210</annotation></semantics></math>):
+Creates a rich <strong>Dominant 7th chord</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>−</mo><mi>E</mi><mo>−</mo><mi>G</mi><mo>−</mo><msup><mi>B</mi><mi>♭</mi></msup></mrow><annotation encoding="application/x-tex">C - E - G - B^\flat</annotation></semantics></math>).</li>
+</ul></li>
+<li><strong>Prime 11 (The Augmented 11th / Lydian Fourth):</strong>
+<ul>
+<li>Pitch:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>F</mi><mn>5</mn><mi>♯</mi></msubsup><annotation encoding="application/x-tex">F^\sharp_5</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>739.99</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">739.99\text{ Hz}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>
+ratio).</li>
+</ul></li>
+<li><strong>Prime 13 (The Natural 13th / Major Sixth):</strong>
+<ul>
+<li>Pitch:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>A</mi><mn>5</mn></msub><annotation encoding="application/x-tex">A_5</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>880.00</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">880.00\text{ Hz}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>13</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">13/8</annotation></semantics></math>
+ratio).</li>
+</ul></li>
+<li><strong>Higher Primes
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>≥</mo><mn>17</mn></mrow><annotation encoding="application/x-tex">p \ge 17</annotation></semantics></math>):</strong>
+<ul>
+<li>Mapped algorithmically into natural scale positions across the
+higher piano octaves
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>5</mn></msub><mo>−</mo><msub><mi>C</mi><mn>7</mn></msub></mrow><annotation encoding="application/x-tex">C_5 - C_7</annotation></semantics></math>)
+so the instrument continues sounding musical and coherent as high primes
+appear.</li>
+</ul></li>
+</ul>
+<h3 id="factor-multiplicity-higher-powers">2.3 Factor Multiplicity
+(Higher Powers)</h3>
+<p>When a prime factor appears multiple times
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><msup><mi>p</mi><mi>k</mi></msup><mo>,</mo><mi>k</mi><mo>≥</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">N = p^k, k \ge 2</annotation></semantics></math>):
+* <strong>Octave Stacking:</strong> For each additional exponent power,
+add the corresponding octave harmonic
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>⋅</mo><msup><mn>2</mn><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">f \cdot 2^{k-1}</annotation></semantics></math>).
+For instance: *
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>⟹</mo><msub><mi>C</mi><mn>3</mn></msub><mo>+</mo><msub><mi>C</mi><mn>4</mn></msub></mrow><annotation encoding="application/x-tex">4 = 2^2 \implies C_3 + C_4</annotation></semantics></math>
+*
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mo>=</mo><msup><mn>2</mn><mn>3</mn></msup><mo>⟹</mo><msub><mi>C</mi><mn>3</mn></msub><mo>+</mo><msub><mi>C</mi><mn>4</mn></msub><mo>+</mo><msub><mi>C</mi><mn>5</mn></msub></mrow><annotation encoding="application/x-tex">8 = 2^3 \implies C_3 + C_4 + C_5</annotation></semantics></math>
+*
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>⋅</mo><mn>3</mn><mo>⟹</mo><msub><mi>C</mi><mn>3</mn></msub><mo>+</mo><msub><mi>C</mi><mn>4</mn></msub><mo>+</mo><msub><mi>G</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">12 = 2^2 \cdot 3 \implies C_3 + C_4 + G_3</annotation></semantics></math>
+* <strong>Velocity &amp; Accent:</strong> Apply
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>2.0</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> dB</mtext></mrow></mrow><annotation encoding="application/x-tex">+2.0\text{ dB}</annotation></semantics></math>
+volume boost and slightly stronger acoustic strike per multiplicity.</p>
+<hr />
+<h2 id="visual-interface-continuous-proximity-waves">3. Visual Interface
+&amp; Continuous Proximity Waves</h2>
+<h3 id="the-scrolling-number-matrix">3.1 The Scrolling Number
+Matrix</h3>
+<ul>
+<li><strong>Layout:</strong> Vertical or horizontal flowing grid showing
+numbers preceding, current, and upcoming.</li>
+<li><strong>Scroll Animation:</strong> Continuous smooth scrolling
+interpolation based on fractional time
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>,
+not jarring jumps.</li>
+<li><strong>Visual States:</strong>
+<ul>
+<li><strong>Upcoming:</strong> Muted slate gray / subtle borders.</li>
+<li><strong>Current
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>):</strong>
+Center spotlight, pulsing scale animation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>1.0</mn><mo>→</mo><mn>1.15</mn><mo>→</mo><mn>1.0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(1.0 \to 1.15 \to 1.0)</annotation></semantics></math>,
+flashing color corresponding to factors.</li>
+<li><strong>Composite Played:</strong> Rings radiate outwards colored by
+the contributing prime factor colors.</li>
+<li><strong>Prime Discovered:</strong> Golden / electric amber flare
+with particle burst.</li>
+<li><strong>Historical (Passed):</strong> Retains color-coded badge
+indicating prime status or factor breakdown.</li>
+</ul></li>
+</ul>
+<h3 id="mathematical-verification-of-the-proximity-function">3.2
+Mathematical Verification of the Proximity Function</h3>
+<p>The plan proposed a progress bar metric:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mo stretchy="true" form="prefix">|</mo><mn>2</mn><mo>⋅</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">speed</mtext><mo>⋅</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mrow><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mrow><mi>mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">)</mo></mrow><mi>p</mi></mfrac><mo>−</mo><mn>1.0</mn><mo stretchy="true" form="postfix">|</mo></mrow></mrow><annotation encoding="application/x-tex">f(t) = \left| 2 \cdot \frac{((\text{speed} \cdot t) \pmod p)}{p} - 1.0 \right|</annotation></semantics></math></p>
+<h4 id="continuity-proof-analysis">Continuity Proof &amp; Analysis:</h4>
+<ol type="1">
+<li>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">speed</mtext><mo>⋅</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mrow><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mrow><mi>mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">x(t) = (\text{speed} \cdot t) \pmod p</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">x(t) \in [0, p)</annotation></semantics></math>.</li>
+<li>Inside the open interval
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>k</mi><mi>p</mi><mo>,</mo><mo stretchy="false" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(k p, (k+1) p)</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">x(t)</annotation></semantics></math>
+is linear and continuous.</li>
+<li>At the boundary where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>→</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mi>k</mi><mi>p</mi></mrow><mtext mathvariant="normal">speed</mtext></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo></msup></mrow><annotation encoding="application/x-tex">t \to \left(\frac{k p}{\text{speed}}\right)^-</annotation></semantics></math>:
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><msup><mi>p</mi><mo>−</mo></msup></mrow><annotation encoding="application/x-tex">x(t) \to p^-</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>2</mn><mi>x</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><mi>p</mi></mfrac><mo>−</mo><mn>1.0</mn><mo>→</mo><mfrac><mrow><mn>2</mn><mi>p</mi></mrow><mi>p</mi></mfrac><mo>−</mo><mn>1.0</mn><mo>=</mo><mi>+</mi><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\frac{2 x(t)}{p} - 1.0 \to \frac{2 p}{p} - 1.0 = +1.0</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><mi>+</mi><mn>1.0</mn><mo stretchy="true" form="postfix">|</mo></mrow><mo>=</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\left| +1.0 \right| = 1.0</annotation></semantics></math></li>
+</ul></li>
+<li>At the boundary where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mfrac><mrow><mi>k</mi><mi>p</mi></mrow><mtext mathvariant="normal">speed</mtext></mfrac></mrow><annotation encoding="application/x-tex">t = \frac{k p}{\text{speed}}</annotation></semantics></math>
+(from the right,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><msup><mo>→</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">t \to^+</annotation></semantics></math>):
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x(t) = 0</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>2</mn><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><mi>p</mi></mfrac><mo>−</mo><mn>1.0</mn><mo>=</mo><mi>−</mi><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\frac{2(0)}{p} - 1.0 = -1.0</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><mi>−</mi><mn>1.0</mn><mo stretchy="true" form="postfix">|</mo></mrow><mo>=</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\left| -1.0 \right| = 1.0</annotation></semantics></math></li>
+</ul></li>
+<li><strong>Conclusion:</strong> Because
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi>lim</mi><mo>&#8289;</mo></mrow><mrow><mi>t</mi><mo>→</mo><msubsup><mi>t</mi><mn>0</mn><mo>−</mo></msubsup></mrow></msub><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mrow><mi>lim</mi><mo>&#8289;</mo></mrow><mrow><mi>t</mi><mo>→</mo><msubsup><mi>t</mi><mn>0</mn><mo>+</mo></msubsup></mrow></msub><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>t</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\lim_{t \to t_0^-} f(t) = \lim_{t \to t_0^+} f(t) = f(t_0) = 1.0</annotation></semantics></math>,
+<strong>the function is mathematically continuous for all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>∈</mo><mi>ℝ</mi></mrow><annotation encoding="application/x-tex">t \in \mathbb{R}</annotation></semantics></math>!</strong></li>
+<li><strong>Waveform Shape:</strong> It is an exact inverted triangle
+wave bounded between
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0.0</mn><mo>,</mo><mn>1.0</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0.0, 1.0]</annotation></semantics></math>:
+<ul>
+<li>Value is
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.0</mn><annotation encoding="application/x-tex">1.0</annotation></semantics></math></strong>
+(Maximum bar height/width) exactly when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">speed</mtext><mo>⋅</mo><mi>t</mi></mrow><annotation encoding="application/x-tex">\text{speed} \cdot t</annotation></semantics></math>
+is a multiple of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>≡</mo><mn>0</mn><mrow><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mrow><mi>mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">N \equiv 0 \pmod p</annotation></semantics></math>).</li>
+<li>Value drops smoothly to
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.0</mn><annotation encoding="application/x-tex">0.0</annotation></semantics></math></strong>
+at the midpoint between multiples
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>≡</mo><mi>p</mi><mi>/</mi><mn>2</mn><mrow><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mrow><mi>mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">N \equiv p/2 \pmod p</annotation></semantics></math>).</li>
+<li>It rises smoothly back to
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.0</mn><annotation encoding="application/x-tex">1.0</annotation></semantics></math></strong>
+as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+approaches the next multiple.</li>
+</ul></li>
+</ol>
+<h3 id="dynamic-bottom-progress-bars">3.3 Dynamic Bottom Progress
+Bars</h3>
+<ul>
+<li><strong>Layout:</strong> A unified multi-tier dashboard pinned to
+the bottom.</li>
+<li><strong>Proximity Gauge:</strong> Each discovered prime gets a
+color-coded bar whose fill corresponds to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f(t)</annotation></semantics></math>.</li>
+<li><strong>Adaptive Scaling &amp; Density Management:</strong>
+<ul>
+<li>As the prime list grows to 20, 50, 100+ primes, showing all bars
+simultaneously would cause unreadable visual noise.</li>
+<li><strong>Visibility Filter:</strong>
+<ul>
+<li>Display the primary small primes
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>,</mo><mn>3</mn><mo>,</mo><mn>5</mn><mo>,</mo><mn>7</mn><mo>,</mo><mn>11</mn><mo>,</mo><mn>13</mn></mrow><annotation encoding="application/x-tex">2, 3, 5, 7, 11, 13</annotation></semantics></math>)
+as persistent tracks.</li>
+<li>For larger primes, only render bars for primes that are currently
+within the active window:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>≥</mo><mn>0.70</mn><mspace width="1.0em"></mspace><mtext mathvariant="normal">(i.e., imminent multiples within 15%of arrival)</mtext></mrow><annotation encoding="application/x-tex">f(t) \ge 0.70 \quad \text{(i.e., imminent multiples within 15\% of arrival)}</annotation></semantics></math></li>
+<li>Display prime number badge inside the bar when width
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mn>28</mn><mtext mathvariant="normal">px</mtext></mrow><annotation encoding="application/x-tex">&gt; 28\text{px}</annotation></semantics></math>.</li>
+</ul></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="single-player-game-experience-immediate-focus">4. Single-Player
+Game Experience (Immediate Focus)</h2>
+<h3 id="zen-exploration-mode">4.1 Zen / Exploration Mode</h3>
+<ul>
+<li><strong>Tempo Slider:</strong> Smoothly adjust speed from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">0.2\text{ Hz}</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> beat per 5 seconds</mtext></mrow></mrow><annotation encoding="application/x-tex">1\text{ beat per 5 seconds}</annotation></semantics></math>)
+up to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10.0</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">10.0\text{ Hz}</annotation></semantics></math>.</li>
+<li><strong>Factor Inspector:</strong> Tap on any number on the board
+(past, present, or future) to inspect its prime factorization and hear
+its piano chord isolated.</li>
+<li><strong>Mute/Solo Prime Tracks:</strong> Toggle individual primes to
+isolate their rhythm and hear how the sieve weaves together.</li>
+</ul>
+<h3 id="solo-reflex-challenge">4.2 Solo Reflex Challenge</h3>
+<ul>
+<li><strong>The “PRIME!” Buzzer Button:</strong> A prominent button at
+the bottom of the screen.</li>
+<li><strong>Timing Window:</strong> The player must press the button
+when the next approaching number is prime (within a configurable
+reaction window before/at the beat).</li>
+<li><strong>Scoring Rules:</strong>
+<ul>
+<li>Tap on Prime:
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>100</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> points</mtext></mrow><mo>×</mo><mtext mathvariant="normal">speed multiplier</mtext></mrow><annotation encoding="application/x-tex">+100 \text{ points} \times \text{speed multiplier}</annotation></semantics></math></strong>.</li>
+<li>Tap on Composite:
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>75</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> points</mtext></mrow></mrow><annotation encoding="application/x-tex">-75 \text{ points}</annotation></semantics></math>
+penalty</strong> (visual screen shake and low thud sound).</li>
+<li>Missed Prime: Streak resets to 0.</li>
+</ul></li>
+<li><strong>Streak Multiplier:</strong> Consecutive correct prime
+identifications build a combo multiplier
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.5</mn><mi>×</mi><mo>,</mo><mn>2.0</mn><mi>×</mi><mo>,</mo><mn>3.0</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">1.5\times, 2.0\times, 3.0\times</annotation></semantics></math>).</li>
+<li><strong>Local High Scores:</strong> Stored locally in browser
+<code>localStorage</code> or device preferences.</li>
+</ul>
+<hr />
+<h2 id="future-multiplayer-architecture-cost-analysis">5. Future
+Multiplayer Architecture &amp; Cost Analysis</h2>
+<p><em>(To be implemented after the single-player experience is complete
+and reviewed)</em></p>
+<h3 id="technology-selection">5.1 Technology Selection</h3>
+<ul>
+<li><strong>Wi-Fi Direct / P2P Wi-Fi:</strong> Android-only, requires
+invasive location/nearby permissions, breaks internet connectivity, and
+is completely unsupported on Web and iOS Safari.</li>
+<li><strong>Bluetooth (BLE):</strong> Does not support
+peripheral/hosting mode on Web browsers; requires native OS
+permissions.</li>
+<li><strong>Recommended: Firebase Realtime Database (Room
+Codes):</strong>
+<ul>
+<li>Instant room code join (e.g., room code <code>7351</code> or QR
+code).</li>
+<li>Works on every platform (Android, iOS Safari, Chrome, Edge,
+desktop).</li>
+<li>Sub-50ms synchronization with NTP server timestamp clock sync.</li>
+</ul></li>
+</ul>
+<h3 id="cost-analysis-zero-cost-target">5.2 Cost Analysis (Zero-Cost
+Target)</h3>
+<ul>
+<li><strong>Firebase Spark Plan (Free Tier):</strong>
+<ul>
+<li><strong>Cost: $0.00 / month forever (No credit card
+required).</strong></li>
+<li><strong>Realtime Database Limits:</strong>
+<ul>
+<li>1 GB stored data (a room state is only ~2 KB).</li>
+<li>10 GB/month network download.</li>
+<li>100 simultaneous active client connections.</li>
+</ul></li>
+<li><strong>Firebase Hosting Limits:</strong>
+<ul>
+<li>10 GB storage, 360 MB/day data transfer, free SSL on custom
+domain.</li>
+</ul></li>
+<li><strong>Conclusion:</strong> The free Spark tier easily supports
+thousands of active game sessions per month at zero cost.</li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="future-casting-architecture-tv-chromecast">6. Future Casting
+Architecture (TV / Chromecast)</h2>
+<p><em>(To be implemented after multiplayer review)</em></p>
+<h3 id="how-google-cast-works">6.1 How Google Cast Works</h3>
+<p>Google Cast separates the system into two applications: 1.
+<strong>The Sender Application:</strong> Runs on the user’s mobile
+device or desktop Chrome browser. 2. <strong>The Web Receiver
+Application:</strong> A web application (HTML5/Canvas/WebAudio) hosted
+on Firebase Hosting that executes inside the Chromecast / Google TV’s
+embedded Chromium browser.</p>
+<ul>
+<li><strong>Dual Experience:</strong>
+<ul>
+<li>TV displays the full-screen 4K scrolling number grid, particle
+explosions, proximity bars, and plays the rich piano chords through the
+TV sound system.</li>
+<li>Mobile phone acts as a low-latency handheld controller and
+buzzer.</li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="educational-content-help">7. Educational Content &amp; Help</h2>
+<ul>
+<li><strong>In-App Tutorial &amp; Help Modal:</strong>
+<ul>
+<li>Interactive explanation of the Sieve of Eratosthenes algorithm.</li>
+<li>Visual guide explaining how prime numbers are the “atoms” of
+integers, and how composite numbers are chords of those atomic
+frequencies.</li>
+<li>Direct clickable link to the <a
+href="https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Wikipedia
+article on Sieve of Eratosthenes</a>.</li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="staged-implementation-plan">8. Staged Implementation Plan</h2>
+<pre class="mermaid"><code>flowchart TD
+    subgraph Milestone 1: Single-Player Experience
+        A1[&quot;Phase 1: Project Setup &amp; Sieve Core Engine&quot;] --&gt; A2[&quot;Phase 2: Polyphonic Piano Sound Engine&quot;]
+        A2 --&gt; A3[&quot;Phase 3: Smooth Scrolling Grid &amp; Proximity Waves&quot;]
+        A3 --&gt; A4[&quot;Phase 4: Solo Reflex Challenge &amp; Zen Modes&quot;]
+        A4 --&gt; A5[&quot;Phase 5: Wikipedia Help Modal &amp; Single-Player Polish&quot;]
+    end
+    subgraph Milestone 2: Multiplayer &amp; Review
+        B1[&quot;Phase 6: Firebase Free Tier Setup &amp; Room Sync&quot;]
+    end
+    subgraph Milestone 3: Casting
+        C1[&quot;Phase 7: Google Cast Web Receiver &amp; Controller Mode&quot;]
+    end
+    A5 --&gt; B1
+    B1 --&gt; C1</code></pre>
+<h3 id="milestone-1-tasks-single-player-experience">Milestone 1 Tasks
+(Single-Player Experience):</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" /><strong>Phase 1: Project
+Scaffolding &amp; Core Engine (COMPLETED):</strong></label>
+<ul>
+<li>Initialized Flutter project configured for Web and Android.</li>
+<li>Implemented deterministic mathematical sieve state generator and
+prime cache in <code>lib/models/sieve_engine.dart</code>.</li>
+<li>Implemented sub-millisecond precision zero-drift stopwatch beat
+timer in <code>lib/models/beat_clock.dart</code>.</li>
+<li>Set up development tooling: <code>setup.sh</code>,
+<code>Makefile</code> (<code>make ASSETS</code>,
+<code>make stage</code>), <code>icon.xcf</code>, and launcher
+icons.</li>
+<li>Created unit test suites in <code>test/sieve_engine_test.dart</code>
+and <code>test/beat_clock_test.dart</code> (14 passing tests).</li>
+</ul></li>
+<li><label><input type="checkbox" checked="" /><strong>Phase 2: Piano
+Audio Engine (COMPLETED):</strong></label>
+<ul>
+<li>Integrated zero-latency polyphonic Web Audio API synthesis in
+<code>lib/models/audio_engine_web.dart</code> with stub fallback in
+<code>lib/models/audio_engine_stub.dart</code>.</li>
+<li>Polyphonic audio engine sounding simultaneous prime factor chords
+for composites and octave overtones for prime powers.</li>
+<li>Sparkling chime for prime numbers and percussive countdown clicks
+for 0 and 1.</li>
+<li>Browser Autoplay Policy unlock handling on any user click or button
+press.</li>
+<li>Audio mute toggle control in AppBar.</li>
+</ul></li>
+<li><label><input type="checkbox" checked="" /><strong>Phase 3: Visual
+Interface (COMPLETED):</strong></label>
+<ul>
+<li>Built smooth-scrolling number stream
+(<code>lib/widgets/number_grid.dart</code>) with prime glow and
+composite factor badges.</li>
+<li>Implemented bottom proximity dashboard
+(<code>lib/widgets/proximity_dashboard.dart</code>) using the continuous
+triangle wave formula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mn>2</mn><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mi>p</mi><mi>e</mi><mi>e</mi><mi>d</mi><mo>⋅</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mrow><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mrow><mi>mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mi>p</mi><mo>−</mo><mn>1.0</mn><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">f(t) = |2 \cdot ((speed \cdot t) \pmod p)/p - 1.0|</annotation></semantics></math>.</li>
+<li>Implemented interactive Factor Inspector modal sheet
+(<code>lib/widgets/factor_inspector.dart</code>).</li>
+</ul></li>
+<li><label><input type="checkbox" checked="" /><strong>Phase 4: Solo
+Gameplay - Reflex Challenge &amp; Scoring (COMPLETED):</strong></label>
+<ul>
+<li>Implemented silent “Guess” button positioned to the right of “Step
+Forward”.</li>
+<li>Live score display, streak multipliers
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>×</mi><mo>,</mo><mn>3</mn><mi>×</mi><mo>,</mo><mi>…</mi></mrow><annotation encoding="application/x-tex">2\times, 3\times, \dots</annotation></semantics></math>),
+and color-coded feedback
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>100</mn></mrow><annotation encoding="application/x-tex">+100</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>50</mn></mrow><annotation encoding="application/x-tex">-50</annotation></semantics></math>).</li>
+<li>Built dedicated Game Rules &amp; How-to-Play help dialog
+(<code>lib/widgets/game_help_dialog.dart</code>).</li>
+</ul></li>
+<li><label><input type="checkbox" checked="" /><strong>Phase 5:
+Educational Help (COMPLETED):</strong></label>
+<ul>
+<li>Built the help dialog (<code>lib/widgets/about_dialog.dart</code>)
+with algorithm breakdown and Wikipedia link.</li>
+<li>Created <code>doc/about.md</code> and compiled to
+<code>assets/about.html</code>.</li>
+</ul></li>
+</ul>
+</body>
+</html>

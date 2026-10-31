@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>About Sieve of Eratosthenes (v3.0.3+0)</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="css/doc_style.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">About Sieve of Eratosthenes (v3.0.3+0)</h1>
+</header>
+<h1 id="about-sieve-of-eratosthenes-v3.0.30">About Sieve of Eratosthenes
+(v3.0.3+0)</h1>
+<p>The <strong>Sieve of Eratosthenes</strong> is an interactive
+educational and rhythmic application designed to transform number theory
+and prime discovery into a living audio-visual experience.</p>
+<h2 id="history-motivation">History &amp; Motivation</h2>
+<p>Created in the 3rd century BCE by the Greek mathematician,
+geographer, and chief librarian of Alexandria, <strong>Eratosthenes of
+Cyrene</strong> (c. 276 – c. 195 BCE), the Sieve is one of the most
+ancient, efficient, and elegant algorithms in mathematics for finding
+all prime numbers up to any given limit.</p>
+<p>For more historical context and algorithmic theory, read the <a
+href="https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Wikipedia
+article on the Sieve of Eratosthenes</a>.</p>
+<h2 id="the-audio-visual-analogy">The Audio-Visual Analogy</h2>
+<ol type="1">
+<li><p><strong>Primes as Atomic Tones</strong>: In number theory, the
+Fundamental Theorem of Arithmetic states that every integer greater than
+1 is either a prime itself or can be uniquely factored into a product of
+primes. In this application, each prime number discovered is assigned an
+atomic musical tone derived from the natural overtone series
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>=</mo><msub><mi>C</mi><mn>3</mn></msub><mo>,</mo><mn>3</mn><mo>=</mo><msub><mi>G</mi><mn>3</mn></msub><mo>,</mo><mn>5</mn><mo>=</mo><msub><mi>E</mi><mn>4</mn></msub><mo>,</mo><mn>7</mn><mo>=</mo><msubsup><mi>B</mi><mn>4</mn><mi>♭</mi></msubsup><mo>,</mo><mn>11</mn><mo>=</mo><msubsup><mi>F</mi><mn>5</mn><mi>♯</mi></msubsup><mo>,</mo><mn>13</mn><mo>=</mo><msub><mi>A</mi><mn>5</mn></msub></mrow><annotation encoding="application/x-tex">2 = C_3, 3 = G_3, 5 = E_4, 7 = B^\flat_4, 11 = F^\sharp_5, 13 = A_5</annotation></semantics></math>).
+When a prime is first encountered, it remains silent; its tone is only
+sounded when it appears as a factor in subsequent composite
+numbers.</p></li>
+<li><p><strong>Composites as Harmonic Chords</strong>: When the sieve
+encounters a composite number, it sounds all of its prime factors
+simultaneously as a musical chord:</p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+plays the fundamental bass anchor
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mn>3</mn></msub><annotation encoding="application/x-tex">C_3</annotation></semantics></math>).</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>
+plays the perfect fifth
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>G</mi><mn>3</mn></msub><annotation encoding="application/x-tex">G_3</annotation></semantics></math>).</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>=</mo><mn>2</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">6 = 2 \times 3</annotation></semantics></math>
+plays an open power chord
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>3</mn></msub><mo>+</mo><msub><mi>G</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">C_3 + G_3</annotation></semantics></math>).</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>5</mn><annotation encoding="application/x-tex">5</annotation></semantics></math>
+plays the major third
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>E</mi><mn>4</mn></msub><annotation encoding="application/x-tex">E_4</annotation></semantics></math>).</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30</mn><mo>=</mo><mn>2</mn><mo>×</mo><mn>3</mn><mo>×</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">30 = 2 \times 3 \times 5</annotation></semantics></math>
+resolves into a complete C Major triad
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>−</mo><mi>E</mi><mo>−</mo><mi>G</mi></mrow><annotation encoding="application/x-tex">C - E - G</annotation></semantics></math>).</li>
+</ul></li>
+<li><p><strong>Prime Multiplicities (Powers) as Octaves</strong>: When a
+number contains multiple factors of the same prime
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>,</mo><mn>8</mn><mo>=</mo><msup><mn>2</mn><mn>3</mn></msup><mo>,</mo><mn>12</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">4 = 2^2, 8 = 2^3, 12 = 2^2 \times 3</annotation></semantics></math>),
+the sound engine layers higher octave harmonics, enriching the timbre
+and acoustic intensity.</p></li>
+<li><p><strong>Continuous Proximity Waves</strong>: The bottom dashboard
+tracks how close the current beat is to being a multiple of each
+discovered prime using the continuous triangle wave metric:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mo stretchy="true" form="prefix">|</mo><mn>2</mn><mo>⋅</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">speed</mtext><mo>⋅</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mrow><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mrow><mi>mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">)</mo></mrow><mi>p</mi></mfrac><mo>−</mo><mn>1.0</mn><mo stretchy="true" form="postfix">|</mo></mrow></mrow><annotation encoding="application/x-tex">f(t) = \left| 2 \cdot \frac{((\text{speed} \cdot t) \pmod p)}{p} - 1.0 \right|</annotation></semantics></math>
+Reaching peak
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.0</mn><annotation encoding="application/x-tex">1.0</annotation></semantics></math>
+at the exact arrival of each multiple.</p></li>
+</ol>
+<h2 id="source-code-bug-reports">Source Code &amp; Bug Reports</h2>
+<p>The source code for this project and issue tracker are hosted on
+GitHub: * Repository: <a
+href="https://github.com/fredgc/sieve">https://github.com/fredgc/sieve</a></p>
+<p>Please file any bug reports, suggestions, or feature requests in the
+GitHub issue tracker.</p>
+<h2 id="more-apps-by-fred-gylys-colwell">More Apps by Fred
+Gylys-Colwell</h2>
+<p>Visit <a href="http://www.gchouse.org">www.gchouse.org</a> to explore
+other interactive mathematics, physics, and computer science
+applications created by Fred Gylys-Colwell, including: * <strong>CAT
+Scan:</strong> Radon Transform and CT image reconstruction tool. *
+<strong>Polytope:</strong> Interactive 4-dimensional regular polytope
+slicer and visualizer. * <strong>Spacetime:</strong> Relativistic
+spacetime intervals and Lorentz transformation explorer. *
+<strong>Daylight:</strong> Planetary day/night solar terminator
+simulation.</p>
+<h2 id="privacy-and-data-retention">Privacy and Data Retention</h2>
+<p>This application stores gameplay high scores and tempo preferences
+locally on your device using <code>shared_preferences</code>. No
+personal data or user analytics are collected, tracked, or
+transmitted.</p>
+</body>
+</html>
