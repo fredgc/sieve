@@ -1,0 +1,47 @@
+name: sieve
+description: "Interactive Sieve of Eratosthenes Audio-Visual Rhythm & Reflex Game"
+publish_to: 'none'
+version: 3.0.3+0
+
+environment:
+  sdk: ">=3.13.5 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.5.2
+  package_info_plus: ^10.2.0
+  url_launcher: ^6.3.1
+  google_fonts: ^8.0.1
+  html_tweak:
+    path: ./html_tweak
+  web: ^1.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.14.3
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/dev/
+    - assets/css/
+    - assets/icons/
+    - assets/audio/
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/icons/icon.png"
+  adaptive_icon_background: "assets/icons/background.png"
+  adaptive_icon_foreground: "assets/icons/foreground.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/icons/icon.png"
+    background_color: "#380C59"
+    theme_color: "#D4C2FC"
