@@ -89,30 +89,70 @@
   <link rel="stylesheet" href="../css/doc_style.css" />
 </head>
 <body>
-<h1 id="sieve-of-eratosthenes-development-notes">Sieve of Eratosthenes
-Development Notes</h1>
-<p>Build Version v3.0.3+0</p>
-<p>Interactive audio-visual rhythm game and mathematical demonstration
-of the Sieve of Eratosthenes built with Flutter for Web and Android.</p>
+<h1 id="gemini.md---developer-guide-for-sieve-of-eratosthenes">GEMINI.md
+- Developer Guide for Sieve of Eratosthenes</h1>
+<p>Welcome! This guide is designed to help future LLM agents and human
+developers get up to speed quickly on the <strong>Sieve of
+Eratosthenes</strong> Flutter application.</p>
+<hr />
+<h2 id="developer-rules-environment-configuration">Developer Rules &amp;
+Environment Configuration</h2>
+<p>All contributors and AI agents must follow the central rules defined
+in <code>~/source/gemini/config/rules/</code>:</p>
+<ul>
+<li><p><strong>Task Management (<code>todo.md</code>)</strong>: Project
+tasks and issues are tracked using <code>~/bin/todo.py</code>. When
+asked about tasks or what to work on next, execute:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/bin/todo.py</span> list</span></code></pre></div></li>
+</ul>
+<p>Before starting an item, mark it in progress
+(<code>~/bin/todo.py doing &lt;N&gt;</code>). Once completed, mark it
+done (<code>~/bin/todo.py done &lt;N&gt;</code>). Do not archive
+completed tasks until reviewed and verified.</p>
+<ul>
+<li><p><strong>Communication Style (<code>style.md</code>)</strong>: Be
+blunt and direct. Avoid polite filler and superlatives. Keep responses
+concise, technical, and focused strictly on facts and
+instructions.</p></li>
+<li><p><strong>Documentation Formatting
+(<code>markdown.md</code>)</strong>: Keep line lengths strictly under 80
+characters. Always separate list items with a blank line. Always follow
+headers with a blank line. Visually align markdown table column borders
+(<code>|</code>).</p></li>
+<li><p><strong>Emacs Integration (<code>emacs.md</code>)</strong>: When
+requested to send a file to Emacs, run
+<code>emacs-maybe-client -f &lt;file&gt;</code>.</p></li>
+<li><p><strong>Hardware &amp; Testing
+(<code>devices.md</code>)</strong>: On host <code>raven</code>, an
+Android device may be connected via <code>adb</code> for Android
+testing.</p></li>
+</ul>
 <hr />
 <h2 id="project-purpose-core-architecture">1. Project Purpose &amp; Core
 Architecture</h2>
 <p>The <strong>Sieve of Eratosthenes</strong> app transforms prime
-number discovery into an interactive audio-visual rhythm experience: *
-Numbers count forward at an adjustable tempo
+number discovery into an interactive audio-visual rhythm experience:</p>
+<ul>
+<li><p>Numbers count forward at an adjustable tempo
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">0.2\text{ Hz}</annotation></semantics></math>
 to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5.0</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">5.0\text{ Hz}</annotation></semantics></math>).
-* Discovered primes are assigned unique atomic musical notes from the
-overtone series and distinct vibrant colors; primes are silent when
-first discovered and only sound when they are part of a composite. *
-Composite numbers sound all their prime factors simultaneously as
-musical chords. * Prime powers
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5.0</mn><mtext mathvariant="normal">
+Hz</mtext></mrow><annotation encoding="application/x-tex">5.0\text{
+Hz}</annotation></semantics></math>).</p></li>
+<li><p>Discovered primes are assigned unique atomic musical notes from
+the overtone series and distinct vibrant colors; primes are silent when
+first discovered and only sound when they are part of a
+composite.</p></li>
+<li><p>Composite numbers sound all their prime factors simultaneously as
+musical chords.</p></li>
+<li><p>Prime powers
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>,</mo><mn>8</mn><mo>=</mo><msup><mn>2</mn><mn>3</mn></msup><mo>,</mo><mn>12</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">4 = 2^2, 8 = 2^3, 12 = 2^2 \times 3</annotation></semantics></math>)
-layer higher octave harmonics. * Bottom proximity dashboard renders
-continuous triangle waves:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mo stretchy="true" form="prefix">|</mo><mn>2</mn><mo>⋅</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">speed</mtext><mo>⋅</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mrow><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mrow><mi>mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">)</mo></mrow><mi>p</mi></mfrac><mo>−</mo><mn>1.0</mn><mo stretchy="true" form="postfix">|</mo></mrow></mrow><annotation encoding="application/x-tex">f(t) = \left| 2 \cdot \frac{((\text{speed} \cdot t) \pmod p)}{p} - 1.0 \right|</annotation></semantics></math>
-smoothly peaking at
+layer higher octave harmonics.</p></li>
+<li><p>Bottom proximity dashboard renders continuous triangle waves:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mo stretchy="true" form="prefix">|</mo><mn>2</mn><mo>⋅</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">speed</mtext><mo>⋅</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mrow><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mrow><mi>mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">)</mo></mrow><mi>p</mi></mfrac><mo>−</mo><mn>1.0</mn><mo stretchy="true" form="postfix">|</mo></mrow></mrow><annotation encoding="application/x-tex">f(t) = \left| 2 \cdot \frac{((\text{speed} \cdot t) \pmod p)}{p} - 1.0 \right|</annotation></semantics></math></p></li>
+</ul>
+<p>smoothly peaking at
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.0</mn><annotation encoding="application/x-tex">1.0</annotation></semantics></math>
 at multiples and reaching
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.0</mn><annotation encoding="application/x-tex">0.0</annotation></semantics></math>
@@ -120,159 +160,278 @@ at midpoints.</p>
 <hr />
 <h2 id="codebase-overview">2. Codebase Overview</h2>
 <pre class="text"><code>lib/
-├── main.dart             # App entry point, Dark/Purple Theme, Hero integer card, controls, harmonics toggle, &amp; mute
+├── main.dart             # App entry, theme toggle, hero card &amp; controls
+├── firebase_options.dart # Firebase configuration for Web and Android
 ├── models/
 │   ├── audio_engine.dart      # Universal audio facade with mute &amp; harmonics toggles
 │   ├── audio_engine_stub.dart # No-op audio implementation for tests/native
 │   ├── audio_engine_web.dart  # Web Audio API polyphonic piano harmonic synthesizer &amp; dynamics compressor
 │   ├── beat_clock.dart        # Stopwatch-based zero-drift clock emitting beat &amp; frame ticks
+│   ├── game_stats.dart        # Persistent high scores, streaks, accuracy, and career statistics
 │   ├── harmonic_palette.dart  # Note/frequency overtone definitions and golden-ratio color assignments
-│   └── sieve_engine.dart      # Sieve trial division, prime cache, and continuous proximity formula
+│   ├── multiplayer_engine.dart # Firebase RTDB room lifecycle, 10-room/10-player quota, session persistence
+│   ├── sieve_engine.dart      # Sieve trial division, prime cache, and continuous proximity formula
+│   └── theme_controller.dart  # Persistent light/dark ThemeMode notifier backed by SharedPreferences
 └── widgets/
     ├── about_dialog.dart     # Help modal referencing Wikipedia, fredgc/sieve, and www.gchouse.org
     ├── factor_inspector.dart # Modal bottom sheet inspecting factors, octaves, and frequencies
     ├── game_help_dialog.dart # How-to-play modal explaining prime reflex game rules and scoring
+    ├── multiplayer_dialog.dart # Room host/join dialog with QR code, share link, and reconnect banner
+    ├── multiplayer_scoreboard.dart # In-game live multiplayer HUD displaying player scores &amp; predictions
     ├── number_grid.dart      # Vertically expanding number stream with moving playhead cursor
-    └── proximity_dashboard.dart # Tight 104px triangle-wave progress bars (hides chord for 6-digit primes)</code></pre>
+    ├── proximity_dashboard.dart # Tight 104px triangle-wave progress bars (hides chord for 6-digit primes)
+    └── stats_dialog.dart     # Player stats and records dialog with accuracy meter and reset option</code></pre>
 <hr />
 <h2 id="current-implementation-status">3. Current Implementation
 Status</h2>
-<h3 id="completed-stages-1-2-3">Completed (Stages 1, 2 &amp; 3)</h3>
+<h3 id="completed-stages-1-2-3-4">Completed (Stages 1, 2, 3 &amp;
+4)</h3>
 <ul>
-<li><strong>Mathematical Sieve Core:</strong> Verified deterministic
+<li><p><strong>Mathematical Sieve Core:</strong> Verified deterministic
 factorization, prime caching, and continuous proximity triangle wave
-calculation in <code>lib/models/sieve_engine.dart</code>.</li>
-<li><strong>Zero-Drift Beat Clock:</strong> Implemented
+calculation in <code>lib/models/sieve_engine.dart</code>.</p></li>
+<li><p><strong>Zero-Drift Beat Clock:</strong> Implemented
 <code>lib/models/beat_clock.dart</code> using <code>Stopwatch</code> +
 <code>TickerProvider</code> to prevent timer drift and provide
 continuous fractional time
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">N(t)</annotation></semantics></math>.</li>
-<li><strong>Polyphonic Acoustic Web Audio Synthesizer:</strong>
-Implemented in <code>lib/models/audio_engine_web.dart</code> using Web
-Audio API:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">N(t)</annotation></semantics></math>.</p></li>
+<li><p><strong>Polyphonic Acoustic Web Audio Synthesizer &amp; Piano
+Soundfont:</strong> Implemented in
+<code>lib/models/audio_engine_web.dart</code> using Web Audio API:</p>
 <ul>
-<li>Pure harmonic oscillators and resonant overtones emulating acoustic
-piano notes.</li>
-<li>Primes are silent when first discovered, sounding their musical
-tones only when they are factors of subsequent composite numbers.</li>
-<li>Composite chords sounding all prime factors simultaneously with
+<li><p><strong>Acoustic Grand Piano Sample Library:</strong>
+Multi-octave piano audio anchors (<code>C3</code>, <code>G3</code>,
+<code>C4</code>, <code>E4</code>, <code>C5</code>, <code>A5</code>,
+<code>C6</code> at ~1.2MB total) pre-decoded into memory with
+zero-latency realtime pitch shifting via
+<code>playbackRate</code>.</p></li>
+<li><p><strong>Seamless Fallback:</strong> Pure harmonic oscillators and
+resonant overtones activate seamlessly if sample buffers are loading or
+offline.</p></li>
+<li><p>Primes are silent when first discovered, sounding their musical
+tones only when they are factors of subsequent composite
+numbers.</p></li>
+<li><p>Composite chords sounding all prime factors simultaneously with
 octave harmonics for powers
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>,</mo><mn>8</mn><mo>=</mo><msup><mn>2</mn><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">4 = 2^2, 8 = 2^3</annotation></semantics></math>).</li>
-<li>Configurable Harmonics Checkbox in AppBar (defaults to
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>,</mo><mn>8</mn><mo>=</mo><msup><mn>2</mn><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">4 = 2^2, 8 = 2^3</annotation></semantics></math>).</p></li>
+<li><p><strong>Acoustic Balancing:</strong> Primes 2
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>35</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">+35\%</annotation></semantics></math>)
+and 3
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>20</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">+20\%</annotation></semantics></math>)
+are boosted in gain so the fundamental bass root
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mn>3</mn></msub><annotation encoding="application/x-tex">C_3</annotation></semantics></math>)
+and perfect fifth
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>G</mi><mn>3</mn></msub><annotation encoding="application/x-tex">G_3</annotation></semantics></math>)
+provide a strong, warm harmonic anchor.</p></li>
+<li><p>Configurable Harmonics Checkbox in AppBar (defaults to
 <strong>OFF</strong>): toggle between full octave harmonics for prime
-powers vs. single fundamental note.</li>
-<li>Master dynamics compressor preventing digital
-distortion/clipping.</li>
-<li>Autoplay policy unlock handling on user interaction (Play, Step,
-Reset, Mute, or Tile click).</li>
-<li>Audio mute/unmute control in AppBar.</li>
+powers vs. single fundamental note.</p></li>
+<li><p>Master dynamics compressor preventing digital
+distortion/clipping.</p></li>
+<li><p>Autoplay policy unlock handling on user interaction (Play, Step,
+Reset, Mute, or Tile click).</p></li>
+<li><p><strong>Master Volume Slider &amp; Mute Toggle:</strong>
+Interactive volume slider with percentage tooltip positioned directly
+alongside dynamic mute/unmute control in AppBar.</p></li>
 </ul></li>
-<li><strong>Keyboard Navigation &amp; Hotkeys:</strong>
+<li><p><strong>Keyboard Navigation &amp; Hotkeys:</strong></p>
 <ul>
-<li><strong>P / p</strong>: Toggle Play / Pause.</li>
-<li><strong>Left / Right Arrow</strong>: Decrease / Increase playback
+<li><p><strong>P / p</strong>: Toggle Play / Pause.</p></li>
+<li><p><strong>Left / Right Arrow</strong>: Decrease / Increase playback
 tempo
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">0.2\text{ Hz}</annotation></semantics></math>
-increments).</li>
-<li><strong>Up / Down Arrow</strong>: Smoothly scroll the number stream
-grid
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn><mtext mathvariant="normal">
+Hz</mtext></mrow><annotation encoding="application/x-tex">0.2\text{
+Hz}</annotation></semantics></math> increments).</p></li>
+<li><p><strong>Up / Down Arrow</strong>: Smoothly scroll the number
+stream grid
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">1/2</annotation></semantics></math>
-box up / down.</li>
-<li><strong>Spacebar</strong>: Guess next number
+box up / down.</p></li>
+<li><p><strong>Spacebar</strong>: Guess next number
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">N+1</annotation></semantics></math>)
-is prime.</li>
+is prime.</p></li>
 </ul></li>
-<li><strong>Solo Reflex Challenge Game Mode (Stage 3):</strong>
+<li><p><strong>Solo Reflex Challenge Game Mode (Stage 3):</strong></p>
 <ul>
-<li>Silent <strong>“Guess Next (#N+1)”</strong> button positioned next
-to “Step Forward” allowing players to guess whether the upcoming number
-is prime before it plays.</li>
-<li>Live <strong>Score</strong> display with 1-point increments
+<li><p>Silent <strong>“Guess Next (#N+1)”</strong> button positioned
+next to “Step Forward” allowing players to guess whether the upcoming
+number is prime before it plays.</p></li>
+<li><p>Live <strong>Score</strong> display with 1-point increments
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">+1</annotation></semantics></math>
 for prime,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math>
-penalty for composite clamped at 0) and color-coded score updates.</li>
-<li><strong>Visual Guess History &amp; Indicator:</strong> Number grid
-boxes display a green border for correct guesses, a red border for
-incorrect guesses, and an amber border for pending guesses.</li>
-<li><strong>Anchored Controls:</strong> Transport and game control bar
-anchored at the bottom of the layout to ensure UI stability when
-proximity waves appear or expand.</li>
-<li>Dedicated <strong>How-to-Play Rules Modal</strong>
+penalty for composite; score can be negative) and color-coded score
+updates.</p></li>
+<li><p><strong>Persistent High Scores &amp; Career Player
+Stats:</strong> Local storage persistence for high score, best prime
+streak, total correct/incorrect guesses, and accuracy percentage via
+<code>lib/models/game_stats.dart</code>.</p></li>
+<li><p>Live <strong>High Score</strong> badge (<code>Best: X</code>) and
+<code>NEW!</code> celebration in the score bar.</p></li>
+<li><p>Dedicated <strong>Player Stats &amp; Records modal</strong>
+(<code>lib/widgets/stats_dialog.dart</code>) with accuracy meter and
+confirmation to reset records.</p></li>
+<li><p><strong>Visual Guess History &amp; Indicator:</strong> Number
+grid boxes display a green border for correct guesses, a red border for
+incorrect guesses, and an amber border for pending guesses.</p></li>
+<li><p><strong>Anchored Controls:</strong> Transport and game control
+bar anchored at the bottom of the layout to ensure UI stability when
+proximity waves appear or expand.</p></li>
+<li><p>Dedicated <strong>How-to-Play Rules Modal</strong>
 (<code>lib/widgets/game_help_dialog.dart</code>) explaining next-number
 prime prediction strategies (proximity waves, silent cues, factor
-rules).</li>
-<li>Streak tracking that resets on incorrect composite guesses or missed
-primes.</li>
+rules).</p></li>
+<li><p>Streak tracking that resets on incorrect composite
+guesses.</p></li>
 </ul></li>
-<li><strong>Harmonic Palette:</strong> Complete pitch frequency and
-color mappings in <code>lib/models/harmonic_palette.dart</code>.</li>
-<li><strong>Interactive UI:</strong>
+<li><p><strong>Realtime Multiplayer Challenge (Stage 4):</strong></p>
 <ul>
-<li>Vertically expanding number stream grid filling available screen
-space with centered auto-scrolling playhead cursor.</li>
-<li>Tightened proximity wave dashboard (~104px per bar) displaying
+<li><p><strong>Firebase Realtime Database Integration:</strong>
+Lightweight presence, room lifecycle, and score sync backed by
+<code>fredgc-sieve-default-rtdb</code>.</p></li>
+<li><p><strong>Strict Quota Clamping:</strong> Hard limit of 10 rooms
+project-wide and 10 players per room
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mo>×</mo><mn>10</mn><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">10 \times 10 = 100</annotation></semantics></math>
+max concurrent connections, well within Spark free tier).</p></li>
+<li><p><strong>Inactivity Auto-Pruning:</strong> Automatic cleanup of
+stale rooms inactive for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">\ge 10</annotation></semantics></math>
+minutes.</p></li>
+<li><p><strong>QR Code &amp; Shareable Link:</strong> Dynamic QR code
+generation via <code>qr_flutter</code> and one-click link sharing
+(<code>/?room=CODE</code>). Automatic URL parameter detection on app
+load pre-fills and opens join modal.</p></li>
+<li><p><strong>Network Dropout Recovery:</strong> Persistent session
+credentials with a 3-minute grace period allowing disconnected players
+to rejoin without score or streak loss.</p></li>
+<li><p><strong>Synchronized Beat Clock &amp; Catch-Up:</strong> Clock
+synchronization using <code>/.info/serverTimeOffset</code> and timestamp
+alignment to eliminate timer drift; <code>BeatClock.syncTo</code> allows
+joining or reconnecting guests to catch up to the host’s exact position
+without audio bursts.</p></li>
+<li><p><strong>Host Authority &amp; Desync Prevention:</strong> Host
+holds sole authority over Play/Pause, Reset, and Tempo adjustments,
+syncing changes instantly across all clients. Guests have transport
+buttons replaced by a dedicated “Leave Room” button and “Host Controls”
+badge, preserving perfect synchronization.</p></li>
+<li><p><strong>Multiplayer HUD Scoreboard:</strong> Live leaderboard
+above the number stream showing active players, live scores, streaks,
+prime guess predictions, and a quick-leave button.</p></li>
+</ul></li>
+<li><p><strong>Harmonic Palette:</strong> Complete pitch frequency and
+color mappings in
+<code>lib/models/harmonic_palette.dart</code>.</p></li>
+<li><p><strong>Interactive UI:</strong></p>
+<ul>
+<li><p>Vertically expanding number stream grid filling available screen
+space with centered auto-scrolling playhead cursor.</p></li>
+<li><p>Tightened proximity wave dashboard (~104px per bar) displaying
 5-digit primes with notes and percentages, gracefully hiding chords for
-6-digit primes.</li>
-<li>Center hero flasher with factor composition chips and note
-frequencies.</li>
-<li>Modal factor inspector sheet with interactive note playback.</li>
+6-digit primes.</p></li>
+<li><p>Center hero flasher with factor composition chips and note
+frequencies.</p></li>
+<li><p>Modal factor inspector sheet with interactive note
+playback.</p></li>
 </ul></li>
-<li><strong>Help &amp; Educational Docs:</strong>
+<li><p><strong>Help, Privacy &amp; Educational Docs:</strong></p>
 <ul>
-<li><code>lib/widgets/about_dialog.dart</code> and
-<code>doc/about.md</code> referencing GitHub <code>fredgc/sieve</code>,
-Wikipedia, and <code>www.gchouse.org</code>.</li>
+<li><p><code>lib/widgets/about_dialog.dart</code> dynamically renders
+markdown from <code>assets/about.html</code> / <code>doc/about.md</code>
+with links to GitHub <code>fredgc/sieve</code>, Wikipedia, and
+<code>www.gchouse.org</code>.</p></li>
+<li><p>Dedicated <strong>Privacy Policy</strong> modal dynamically
+loading <code>doc/privacy.md</code> emphasizing zero accounts, zero
+tracking, and privacy-by-design with GitHub issue contact
+routing.</p></li>
+<li><p>Dedicated <strong>How-to-Play Rules Modal</strong>
+(<code>lib/widgets/game_help_dialog.dart</code>) dynamically loading
+<code>doc/rules.md</code> explaining prime reflex prediction strategies
+(proximity waves, silent cues, factor rules).</p></li>
 </ul></li>
-<li><strong>Tooling &amp; Infrastructure:</strong>
+<li><p><strong>Tooling &amp; Infrastructure:</strong></p>
 <ul>
-<li><code>icon.xcf</code> (512x512 with <code>Background</code> and
+<li><p><code>icon.xcf</code> (512x512 with <code>Background</code> and
 <code>Foreground</code> layers) and automated generation via
-<code>icon-generate</code> and <code>flutter_launcher_icons</code>.</li>
-<li><code>Makefile</code> targets: <code>make ASSETS</code>,
+<code>icon-generate</code> and
+<code>flutter_launcher_icons</code>.</p></li>
+<li><p><code>Makefile</code> targets: <code>make ASSETS</code>,
 <code>make docs</code>, <code>make stage</code>,
-<code>make stage-release</code>, <code>make test</code>.</li>
-<li><code>setup.sh</code> with workspace hotkeys and host routing
-(<code>raven</code>: 5520, <code>jeeves</code>: 5008).</li>
-<li>Firebase project <code>fredgc-sieve</code> configured in
-<code>.firebaserc</code> and <code>firebase.json</code>.</li>
+<code>make stage-release</code>, <code>make test</code>.</p></li>
+<li><p><code>setup.sh</code> with workspace hotkeys and host routing
+(<code>raven</code>: 5520, <code>jeeves</code>: 5008).</p></li>
+<li><p>Firebase project <code>fredgc-sieve</code> configured in
+<code>.firebaserc</code> and <code>firebase.json</code>.</p></li>
 </ul></li>
-<li><strong>Testing &amp; Quality:</strong>
+<li><p><strong>Testing &amp; Quality:</strong></p>
 <ul>
-<li>15 unit and widget tests passing cleanly
+<li><p>33 unit and widget tests passing cleanly
 (<code>test/sieve_engine_test.dart</code>,
 <code>test/beat_clock_test.dart</code>,
-<code>test/widget_test.dart</code>).</li>
-<li><code>flutter analyze</code> reports 0 issues.</li>
-<li><code>flutter build web</code> compiles with zero errors.</li>
+<code>test/game_stats_test.dart</code>,
+<code>test/multiplayer_engine_test.dart</code>,
+<code>test/widget_test.dart</code>).</p></li>
+<li><p><code>flutter analyze</code> reports 0 issues.</p></li>
+<li><p><code>flutter build web</code> compiles with zero
+errors.</p></li>
 </ul></li>
 </ul>
 <h3 id="upcoming-stages">Upcoming Stages</h3>
 <ul>
-<li><strong>Stage 4:</strong> Multiplayer room synchronization (Firebase
-Realtime Database free tier).</li>
 <li><strong>Stage 5:</strong> Google Cast TV Web Receiver mode.</li>
 </ul>
 <hr />
-<h2 id="key-developer-commands">4. Key Developer Commands</h2>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start dev session (sets up emacs, hotkeys, chrome tabs)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./setup.sh</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Run local debug server</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">./run-local-server.sh</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Build all documentation and icons</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> ASSETS</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Run tests and analysis</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> test</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> analyze</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Deploy to Firebase Hosting staging channel</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> stage</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Increment version and build numbers</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="ex">./roll_build_number.sh</span></span></code></pre></div>
+<h2 id="build-test-deployment-workflow">4. Build, Test &amp; Deployment
+Workflow</h2>
+<h3 id="build-and-asset-automation-makefile">Build and Asset Automation
+(<code>Makefile</code>)</h3>
+<p>The project uses <code>make</code> targets to coordinate asset
+compilation and builds:</p>
+<ul>
+<li><p><code>make docs</code>: Compiles user markdown docs from
+<code>doc/*.md</code> into <code>assets/*.html</code> and developer docs
+(<code>plan.md</code>, <code>README.md</code>, <code>GEMINI.md</code>)
+into <code>assets/dev/*.html</code> via <code>pandoc</code>.</p></li>
+<li><p><code>make ASSETS</code>: Generates icons, favicons, version
+metadata, and docs.</p></li>
+<li><p><code>make test</code>: Runs standard Flutter unit, widget, and
+ARB localization parity tests on every commit
+(<code>flutter test --exclude-tags release_audit</code>). Fast execution
+(~2-5 seconds).</p></li>
+<li><p><code>make audit</code>: Runs exhaustive pre-release
+accessibility and multi-locale layout audits
+(<code>flutter test test/audit_test.dart</code>). Tests all supported
+locales, compact mobile/tablet/desktop viewports, 1.5x/2.0x font
+scaling, and WCAG AA guidelines
+(<code>labeledTapTargetGuideline</code>). Required automatically by
+<code>make stage-release</code> and <code>make release</code>.</p></li>
+<li><p><code>make stage</code>: Builds web app with debug flags and
+deploys to Firebase staging channel.</p></li>
+<li><p><code>make stage-release</code>: Builds production web bundle and
+runs <code>firebase_stage.pl</code>.</p></li>
+<li><p><code>make release</code>: Rolls version number
+(<code>--release</code>), runs full build, and deploys via Firebase
+(<code>sieve.gchouse.org</code>).</p></li>
+</ul>
+<h3 id="key-developer-commands">Key Developer Commands</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start dev session (sets up emacs, hotkeys, chrome tabs)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./setup.sh</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Run local debug server</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">./run-local-server.sh</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Build all documentation and icons</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> ASSETS</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Run tests on every commit</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> test</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Run exhaustive pre-release audit</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> audit</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Deploy to Firebase Hosting staging channel</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> stage</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Increment version and build numbers</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="ex">./roll_build_number.sh</span></span></code></pre></div>
 </body>
 </html>

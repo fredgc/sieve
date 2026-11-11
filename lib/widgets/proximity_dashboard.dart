@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+
 import '../models/harmonic_palette.dart';
 import '../models/sieve_engine.dart';
+import '../l10n/l10n_extension.dart';
 
-/// Renders the continuous triangle wave proximity dashboard for discovered primes.
+/// Renders the continuous triangle wave proximity dashboard
+/// for discovered primes.
 class ProximityDashboard extends StatelessWidget {
   final List<int> discoveredPrimes;
   final double fractionalN;
@@ -17,23 +20,30 @@ class ProximityDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Proximity waves do not appear until after at least one prime has been discovered
+    // Proximity waves do not appear until after at least
+    // one prime has been discovered
     if (discoveredPrimes.isEmpty) {
       return const SizedBox.shrink();
     }
 
     // Strictly only display bars for primes that have already been discovered!
     final visiblePrimes = discoveredPrimes.toList();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFF140824),
+        color: isDark ? const Color(0xFF140824) : const Color(0xFFFAF7FD),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFF380C59), width: 1.5),
+        border: Border.all(
+          color: isDark ? const Color(0xFF380C59) : const Color(0xFFE2D9F3),
+          width: 1.5,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.4),
+            color: isDark
+                ? Colors.black.withValues(alpha: 0.4)
+                : const Color(0xFF9D4EDD).withValues(alpha: 0.08),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -46,14 +56,22 @@ class ProximityDashboard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Row(
+              Row(
                 children: [
-                  Icon(Icons.graphic_eq, color: Color(0xFFD4C2FC), size: 16),
-                  SizedBox(width: 6),
+                  Icon(
+                    Icons.graphic_eq,
+                    color: isDark
+                        ? const Color(0xFFD4C2FC)
+                        : const Color(0xFF6B21A8),
+                    size: 16,
+                  ),
+                  const SizedBox(width: 6),
                   Text(
-                    'PROXIMITY WAVES',
+                    context.l10n.proximityWaves,
                     style: TextStyle(
-                      color: Color(0xFFD4C2FC),
+                      color: isDark
+                          ? const Color(0xFFD4C2FC)
+                          : const Color(0xFF6B21A8),
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.1,
@@ -62,8 +80,11 @@ class ProximityDashboard extends StatelessWidget {
                 ],
               ),
               Text(
-                '${discoveredPrimes.length} Primes Discovered',
-                style: const TextStyle(color: Colors.white54, fontSize: 10),
+                context.l10n.primesDiscovered(discoveredPrimes.length),
+                style: TextStyle(
+                  color: isDark ? Colors.white54 : const Color(0xFF5A4974),
+                  fontSize: 10,
+                ),
               ),
             ],
           ),
@@ -74,11 +95,15 @@ class ProximityDashboard extends StatelessWidget {
               const double runSpacing = 4.0;
               const double targetTightWidth = 104.0;
 
-              // Tight width: just a little wider than needed for a 5-digit prime, note name, and percentage
-              int columns = ((constraints.maxWidth + spacing) / (targetTightWidth + spacing)).floor();
+              // Tight width: enough for 5-digit prime, note name, and percent
+              int columns =
+                  ((constraints.maxWidth + spacing) /
+                          (targetTightWidth + spacing))
+                      .floor();
               if (columns < 2) columns = 2;
 
-              final itemWidth = (constraints.maxWidth - ((columns - 1) * spacing)) / columns;
+              final itemWidth =
+                  (constraints.maxWidth - ((columns - 1) * spacing)) / columns;
               const double itemHeight = 24.0;
 
               return ConstrainedBox(
@@ -88,11 +113,17 @@ class ProximityDashboard extends StatelessWidget {
                     spacing: spacing,
                     runSpacing: runSpacing,
                     children: visiblePrimes.map((prime) {
-                      final proximity = SieveEngine.getProximity(prime, fractionalN);
-                      final color = HarmonicPalette.getColor(prime);
+                      final proximity = SieveEngine.getProximity(
+                        prime,
+                        fractionalN,
+                      );
+                      final color = HarmonicPalette.getColor(
+                        prime,
+                        isDark: isDark,
+                      );
                       final note = HarmonicPalette.getNote(prime);
                       final isPeak = proximity > 0.95;
-                      // Stop displaying the chord/note for six digit primes (>= 100,000)
+                      // Stop displaying chord for six digit primes (>= 100,000)
                       final showChord = prime < 100000;
 
                       return GestureDetector(
@@ -101,16 +132,26 @@ class ProximityDashboard extends StatelessWidget {
                           width: itemWidth,
                           height: itemHeight,
                           decoration: BoxDecoration(
-                            color: const Color(0xFF220D3D),
+                            color: isDark
+                                ? const Color(0xFF220D3D)
+                                : const Color(0xFFF3EDFC),
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(
-                              color: isPeak ? Colors.white : color.withValues(alpha: 0.5),
+                              color: isPeak
+                                  ? (isDark
+                                      ? Colors.white
+                                      : const Color(0xFF6B21A8))
+                                  : color.withValues(
+                                      alpha: isDark ? 0.5 : 0.6,
+                                    ),
                               width: isPeak ? 1.5 : 1.0,
                             ),
                             boxShadow: isPeak
                                 ? [
                                     BoxShadow(
-                                      color: color.withValues(alpha: 0.6),
+                                      color: color.withValues(
+                                        alpha: isDark ? 0.6 : 0.4,
+                                      ),
                                       blurRadius: 6,
                                       spreadRadius: 1,
                                     ),
@@ -124,31 +165,45 @@ class ProximityDashboard extends StatelessWidget {
                                 widthFactor: proximity,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: color.withValues(alpha: isPeak ? 0.75 : 0.4),
+                                    color: color.withValues(
+                                      alpha: isPeak
+                                          ? (isDark ? 0.75 : 0.35)
+                                          : (isDark ? 0.4 : 0.2),
+                                    ),
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                 ),
                               ),
                               // Label & info - tight single row
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 5),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 5,
+                                ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 3.5, vertical: 1),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 3.5,
+                                            vertical: 1,
+                                          ),
                                           decoration: BoxDecoration(
                                             color: color,
-                                            borderRadius: BorderRadius.circular(3),
+                                            borderRadius: BorderRadius.circular(
+                                              3,
+                                            ),
                                           ),
                                           child: Text(
                                             '$prime',
-                                            style: const TextStyle(
-                                              color: Colors.black,
+                                            style: TextStyle(
+                                              color: isDark
+                                                  ? Colors.black
+                                                  : Colors.white,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 9.5,
                                               height: 1.1,
@@ -160,7 +215,11 @@ class ProximityDashboard extends StatelessWidget {
                                           Text(
                                             note.noteName,
                                             style: TextStyle(
-                                              color: Colors.white.withValues(alpha: 0.9),
+                                              color: isDark
+                                                  ? Colors.white.withValues(
+                                                      alpha: 0.9,
+                                                    )
+                                                  : const Color(0xFF1F1135),
                                               fontSize: 9.5,
                                               fontWeight: FontWeight.w600,
                                               height: 1.1,
@@ -172,9 +231,17 @@ class ProximityDashboard extends StatelessWidget {
                                     Text(
                                       '${(proximity * 100).toInt()}%',
                                       style: TextStyle(
-                                        color: isPeak ? Colors.white : Colors.white70,
+                                        color: isPeak
+                                            ? (isDark
+                                                ? Colors.white
+                                                : const Color(0xFF6B21A8))
+                                            : (isDark
+                                                ? Colors.white70
+                                                : const Color(0xFF5A4974)),
                                         fontSize: 9.0,
-                                        fontWeight: isPeak ? FontWeight.bold : FontWeight.normal,
+                                        fontWeight: isPeak
+                                            ? FontWeight.bold
+                                            : FontWeight.normal,
                                         height: 1.1,
                                       ),
                                     ),

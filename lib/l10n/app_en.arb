@@ -1,0 +1,484 @@
+{
+  "@@locale": "en",
+  "aboutAndHelpTooltip": "About & Help",
+  "@aboutAndHelpTooltip": {
+    "description": "Tooltip for the About & Help button"
+  },
+  "aboutDialogClose": "Close",
+  "@aboutDialogClose": {
+    "description": "Close button label in About dialog"
+  },
+  "aboutDialogHarmonicAnalogy": "Harmonic Analogy",
+  "@aboutDialogHarmonicAnalogy": {
+    "description": "Button to open the Harmonic Analogy dialog"
+  },
+  "aboutDialogPrivacyPolicy": "Privacy Policy",
+  "@aboutDialogPrivacyPolicy": {
+    "description": "Button to open the Privacy Policy dialog"
+  },
+  "aboutDialogTermsOfService": "Terms of Service",
+  "@aboutDialogTermsOfService": {
+    "description": "Button to open Terms of Service"
+  },
+  "aboutDialogVersion": "v{version}",
+  "@aboutDialogVersion": {
+    "description": "Version string in About dialog",
+    "placeholders": {
+      "version": { "type": "String" }
+    }
+  },
+  "accuracyPercent": "{percent}%",
+  "@accuracyPercent": {
+    "description": "Percentage display for accuracy",
+    "placeholders": {
+      "percent": { "type": "String" }
+    }
+  },
+  "allTimeAccuracy": "ALL-TIME ACCURACY",
+  "@allTimeAccuracy": {
+    "description": "Title for all-time accuracy metric"
+  },
+  "analogyDialogTitle": "Audio-Visual Analogy",
+  "@analogyDialogTitle": {
+    "description": "Title of the Harmonic Analogy modal dialog"
+  },
+  "appTitle": "Sieve of Eratosthenes",
+  "@appTitle": {
+    "description": "Main application title"
+  },
+  "bestStreak": "BEST STREAK",
+  "@bestStreak": {
+    "description": "Metric card title for best streak"
+  },
+  "bestStreakSubtext": "Primes in a row",
+  "@bestStreakSubtext": {
+    "description": "Metric card subtext for best streak"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Generic cancel button text"
+  },
+  "cancelGuessTooltip": "Cancel Guess for #{number} (Space)",
+  "@cancelGuessTooltip": {
+    "description": "Tooltip to cancel the prime guess for the next number",
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "compositeLabel": "COMPOSITE",
+  "@compositeLabel": {
+    "description": "Label indicating a composite number"
+  },
+  "compositesGuessedSubtext": "Composites guessed",
+  "@compositesGuessedSubtext": {
+    "description": "Subtext for incorrect guesses"
+  },
+  "correctGuesses": "CORRECT",
+  "@correctGuesses": {
+    "description": "Metric card title for correct guesses"
+  },
+  "countingBeginsAtZero": "Counting begins at 0. Press Play to start the Sieve of Eratosthenes.",
+  "@countingBeginsAtZero": {
+    "description": "Introductory instruction text when number is 0"
+  },
+  "endMatch": "End Match",
+  "@endMatch": {
+    "description": "Button to end a match as host"
+  },
+  "endMatchDisbandTooltip": "End Match & Disband Room",
+  "@endMatchDisbandTooltip": {
+    "description": "Tooltip for ending a multiplayer match as host"
+  },
+  "gameHelpClose": "Got it! Let's Play",
+  "@gameHelpClose": {
+    "description": "Dismiss button in game rules dialog"
+  },
+  "gameHelpError": "Unable to load game rules.",
+  "@gameHelpError": {
+    "description": "Error message when game rules html cannot load"
+  },
+  "gameHelpTitle": "How to Play",
+  "@gameHelpTitle": {
+    "description": "Title of the Game Rules / How to Play dialog"
+  },
+  "gameHelpTooltip": "How to Play (Game Rules)",
+  "@gameHelpTooltip": {
+    "description": "Tooltip for Game Rules button"
+  },
+  "gridGo": "Go!",
+  "@gridGo": {
+    "description": "Subtext for 1 in grid cell"
+  },
+  "gridGuess": "GUESS",
+  "@gridGuess": {
+    "description": "Badge in grid cell when number is guessed prime"
+  },
+  "gridPrime": "PRIME",
+  "@gridPrime": {
+    "description": "Badge in grid cell when prime is discovered"
+  },
+  "gridReady": "Ready",
+  "@gridReady": {
+    "description": "Subtext for 0 in grid cell"
+  },
+  "guessButtonActive": "Guessed #{number}",
+  "@guessButtonActive": {
+    "description": "Label on guess button when active",
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "guessButtonInactive": "Guess Next (#{number})",
+  "@guessButtonInactive": {
+    "description": "Label on guess button when inactive",
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "guessNextTooltip": "Guess Next #{number} is Prime (Space)",
+  "@guessNextTooltip": {
+    "description": "Tooltip for guess button",
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "harmonicFrequency": "Harmonic Frequency",
+  "@harmonicFrequency": {
+    "description": "Header in factor inspector for frequency"
+  },
+  "harmonicsLabel": "Harmonics",
+  "@harmonicsLabel": {
+    "description": "Checkbox label for audio harmonics"
+  },
+  "harmonicsOffTooltip": "Turn off harmonics (prime powers like 4 and 8 will play a single note)",
+  "@harmonicsOffTooltip": {
+    "description": "Tooltip when harmonics is on"
+  },
+  "harmonicsOnTooltip": "Turn on harmonics (prime powers like 4 and 8 will play multiple octave notes)",
+  "@harmonicsOnTooltip": {
+    "description": "Tooltip when harmonics is off"
+  },
+  "heroGo": "1 - Go!",
+  "@heroGo": {
+    "description": "Hero text for number 1"
+  },
+  "heroPrime": "{number} - Prime!",
+  "@heroPrime": {
+    "description": "Hero text when number is prime",
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "heroReady": "0 - Ready...",
+  "@heroReady": {
+    "description": "Hero text when starting at 0"
+  },
+  "highScore": "HIGH SCORE",
+  "@highScore": {
+    "description": "Metric card title for high score"
+  },
+  "hostControls": "Host Controls (Room {roomCode})",
+  "@hostControls": {
+    "description": "Guest banner showing host room controls",
+    "placeholders": {
+      "roomCode": { "type": "String" }
+    }
+  },
+  "incorrectGuesses": "INCORRECT",
+  "@incorrectGuesses": {
+    "description": "Metric card title for incorrect guesses"
+  },
+  "languageAuto": "Auto (System)",
+  "@languageAuto": {
+    "description": "Option to use system language"
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "English language name"
+  },
+  "languageSpanish": "Español",
+  "@languageSpanish": {
+    "description": "Spanish language name"
+  },
+  "leaveMultiplayerContentGuest": "You will leave the current room and return to solo mode.",
+  "@leaveMultiplayerContentGuest": {
+    "description": "Dialog message for guest leaving multiplayer room"
+  },
+  "leaveMultiplayerContentHost": "Leaving will end the room for all players and return to solo mode.",
+  "@leaveMultiplayerContentHost": {
+    "description": "Dialog message for host leaving multiplayer room"
+  },
+  "leaveMultiplayerTitleGuest": "Leave Multiplayer Room?",
+  "@leaveMultiplayerTitleGuest": {
+    "description": "Dialog title for guest leaving multiplayer room"
+  },
+  "leaveMultiplayerTitleHost": "End Multiplayer Match?",
+  "@leaveMultiplayerTitleHost": {
+    "description": "Dialog title for host leaving multiplayer room"
+  },
+  "leaveRoom": "Leave Room",
+  "@leaveRoom": {
+    "description": "Button to leave a room as guest"
+  },
+  "muteAudioTooltip": "Mute Audio",
+  "@muteAudioTooltip": {
+    "description": "Tooltip to mute audio"
+  },
+  "multiplayerCopyLink": "Copy Link",
+  "@multiplayerCopyLink": {
+    "description": "Button to copy room link"
+  },
+  "multiplayerCreateRoom": "Create New Room",
+  "@multiplayerCreateRoom": {
+    "description": "Button to create a room"
+  },
+  "multiplayerCreatingRoom": "Creating room...",
+  "@multiplayerCreatingRoom": {
+    "description": "Status text while creating room"
+  },
+  "multiplayerEnterCode": "Enter 4-character Room Code",
+  "@multiplayerEnterCode": {
+    "description": "Hint text for room code input"
+  },
+  "multiplayerHostTab": "Host Room",
+  "@multiplayerHostTab": {
+    "description": "Tab title for hosting a room"
+  },
+  "multiplayerJoinMatch": "Join Match",
+  "@multiplayerJoinMatch": {
+    "description": "Button to join a match"
+  },
+  "multiplayerJoinTab": "Join Room",
+  "@multiplayerJoinTab": {
+    "description": "Tab title for joining a room"
+  },
+  "multiplayerJoining": "Joining room...",
+  "@multiplayerJoining": {
+    "description": "Status text while joining a room"
+  },
+  "multiplayerLockRoom": "Lock Room",
+  "@multiplayerLockRoom": {
+    "description": "Button to lock multiplayer room"
+  },
+  "multiplayerLocked": "Room Locked",
+  "@multiplayerLocked": {
+    "description": "Badge when multiplayer room is locked"
+  },
+  "multiplayerMatchTooltip": "Multiplayer Match",
+  "@multiplayerMatchTooltip": {
+    "description": "Tooltip for Multiplayer dialog button"
+  },
+  "multiplayerNicknameOptional": "Your Nickname (Optional)",
+  "@multiplayerNicknameOptional": {
+    "description": "Hint text for player nickname"
+  },
+  "multiplayerPlayersHeader": "PLAYERS ({count})",
+  "@multiplayerPlayersHeader": {
+    "description": "Header for player list in room",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "multiplayerRejoin": "Rejoin Previous Room ({roomCode})",
+  "@multiplayerRejoin": {
+    "description": "Button to rejoin cached room session",
+    "placeholders": {
+      "roomCode": { "type": "String" }
+    }
+  },
+  "multiplayerRoomCode": "ROOM CODE",
+  "@multiplayerRoomCode": {
+    "description": "Label for room code display"
+  },
+  "multiplayerYouTag": "(You)",
+  "@multiplayerYouTag": {
+    "description": "Tag next to the local player name"
+  },
+  "newHighScoreBadge": "NEW!",
+  "@newHighScoreBadge": {
+    "description": "Badge displayed when new high score is achieved"
+  },
+  "nextNumberIsTwo": "Next number is 2: The very first prime!",
+  "@nextNumberIsTwo": {
+    "description": "Text banner when current number is 1"
+  },
+  "numberStreamGrid": "NUMBER STREAM GRID",
+  "@numberStreamGrid": {
+    "description": "Section header for the number grid"
+  },
+  "pauseTooltip": "Pause (P)",
+  "@pauseTooltip": {
+    "description": "Tooltip to pause playback"
+  },
+  "playTooltip": "Play (P)",
+  "@playTooltip": {
+    "description": "Tooltip to play playback"
+  },
+  "playbackControlledByHost": "Playback is controlled by the room host. Tap \"Leave Room\" to exit.",
+  "@playbackControlledByHost": {
+    "description": "Snackbar message when guest attempts playback control"
+  },
+  "playerStatsTitle": "Player Stats & Records",
+  "@playerStatsTitle": {
+    "description": "Title of player stats dialog"
+  },
+  "pointsSubtext": "Points",
+  "@pointsSubtext": {
+    "description": "Subtext under high score"
+  },
+  "primeFactors": "Prime Factors",
+  "@primeFactors": {
+    "description": "Header in factor inspector for factors"
+  },
+  "primeNumberBadge": "PRIME NUMBER",
+  "@primeNumberBadge": {
+    "description": "Badge indicating prime number in hero spotlight"
+  },
+  "primesCaughtSubtext": "Primes caught",
+  "@primesCaughtSubtext": {
+    "description": "Subtext for correct guesses"
+  },
+  "primesDiscovered": "{count, plural, =1{1 Prime Discovered} other{{count} Primes Discovered}}",
+  "@primesDiscovered": {
+    "description": "Count of primes discovered",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "privacyPolicyDialogTitle": "Privacy Policy",
+  "@privacyPolicyDialogTitle": {
+    "description": "Title of privacy policy modal dialog"
+  },
+  "proximityWaves": "PROXIMITY WAVES",
+  "@proximityWaves": {
+    "description": "Title of the proximity dashboard"
+  },
+  "quitDisbandTooltip": "Quit Match & Disband Room",
+  "@quitDisbandTooltip": {
+    "description": "Tooltip to quit and disband room as host"
+  },
+  "quitLeaveTooltip": "Quit Game & Leave Room",
+  "@quitLeaveTooltip": {
+    "description": "Tooltip to quit and leave room as guest"
+  },
+  "resetAllStatsConfirm": "This will permanently delete your high score, streaks, and accuracy metrics.",
+  "@resetAllStatsConfirm": {
+    "description": "Confirmation content for resetting stats"
+  },
+  "resetAllStatsTitle": "Reset All Stats?",
+  "@resetAllStatsTitle": {
+    "description": "Title of stats reset confirmation dialog"
+  },
+  "resetEverything": "Reset Everything",
+  "@resetEverything": {
+    "description": "Confirm button label in reset stats dialog"
+  },
+  "resetMatchHostTooltip": "Reset Match (Host)",
+  "@resetMatchHostTooltip": {
+    "description": "Tooltip to reset match in multiplayer room"
+  },
+  "resetSieveScoreTooltip": "Reset Sieve & Score",
+  "@resetSieveScoreTooltip": {
+    "description": "Tooltip to reset sieve and score"
+  },
+  "resetStatsButton": "Reset Stats",
+  "@resetStatsButton": {
+    "description": "Button to trigger stats reset"
+  },
+  "roomDismantledHostSnackbar": "Room dismantled. Returned to solo mode.",
+  "@roomDismantledHostSnackbar": {
+    "description": "Snackbar shown to host when leaving room"
+  },
+  "roomLeftGuestSnackbar": "Left multiplayer room. Returned to solo mode.",
+  "@roomLeftGuestSnackbar": {
+    "description": "Snackbar shown to guest when leaving room"
+  },
+  "scoreBest": "Best: {highScore}",
+  "@scoreBest": {
+    "description": "Best score display",
+    "placeholders": {
+      "highScore": { "type": "int" }
+    }
+  },
+  "scoreDisplay": "Score: {score}",
+  "@scoreDisplay": {
+    "description": "Current score display",
+    "placeholders": {
+      "score": { "type": "int" }
+    }
+  },
+  "soloOnlyHostReset": "Only the host can reset the match. Tap \"Leave Room\" to exit.",
+  "@soloOnlyHostReset": {
+    "description": "Snackbar message when guest attempts reset"
+  },
+  "startLabel": "START",
+  "@startLabel": {
+    "description": "Label for 0 and 1 in factor inspector"
+  },
+  "statsDialogTooltip": "Player Stats & Records",
+  "@statsDialogTooltip": {
+    "description": "Tooltip for player stats button"
+  },
+  "stepForwardTooltip": "Step Forward",
+  "@stepForwardTooltip": {
+    "description": "Tooltip to step forward by 1"
+  },
+  "switchLanguageTooltip": "Switch Language",
+  "@switchLanguageTooltip": {
+    "description": "Tooltip for the language switcher menu button"
+  },
+  "tempoDisplay": "Tempo: {tempo} Hz ({bpm} BPM)",
+  "@tempoDisplay": {
+    "description": "Tempo readout",
+    "placeholders": {
+      "tempo": { "type": "String" },
+      "bpm": { "type": "int" }
+    }
+  },
+  "tempoHostSuffix": " (Host)",
+  "@tempoHostSuffix": {
+    "description": "Suffix when tempo is controlled by host"
+  },
+  "tempoSyncTooltip": "Tempo is synchronized to the room host",
+  "@tempoSyncTooltip": {
+    "description": "Tooltip when tempo slider is locked by host"
+  },
+  "tempoTooltip": "Adjust tempo: Left / Right arrow keys",
+  "@tempoTooltip": {
+    "description": "Tooltip for tempo slider"
+  },
+  "termsOfServiceDialogTitle": "Terms of Service",
+  "@termsOfServiceDialogTitle": {
+    "description": "Title of terms of service modal dialog"
+  },
+  "totalGuesses": "{total, plural, =1{1 guess} other{{total} guesses}}",
+  "@totalGuesses": {
+    "description": "Plural for total guesses",
+    "placeholders": {
+      "total": { "type": "int" }
+    }
+  },
+  "unmuteAudioTooltip": "Unmute Audio",
+  "@unmuteAudioTooltip": {
+    "description": "Tooltip to unmute audio"
+  },
+  "upcomingLabel": "UPCOMING",
+  "@upcomingLabel": {
+    "description": "Badge in factor inspector for upcoming number"
+  },
+  "volumeTooltip": "Volume: {volume}%",
+  "@volumeTooltip": {
+    "description": "Tooltip for volume slider",
+    "placeholders": {
+      "volume": { "type": "int" }
+    }
+  },
+  "themeLightTooltip": "Switch to Light Mode",
+  "@themeLightTooltip": {
+    "description": "Tooltip for button to switch to light mode"
+  },
+  "themeDarkTooltip": "Switch to Dark Mode",
+  "@themeDarkTooltip": {
+    "description": "Tooltip for button to switch to dark mode"
+  }
+}

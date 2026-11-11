@@ -61,5 +61,20 @@ void main() {
       clock.speedHz = -1.0;
       expect(clock.speedHz, greaterThan(0.0));
     });
+
+    test(
+      'syncTo catches up clock and engine to target fractional position',
+      () {
+        clock.syncTo(10.75);
+        expect(clock.currentFractionalN, equals(10.75));
+        expect(engine.currentNumber, equals(10));
+        expect(engine.discoveredPrimes, equals([2, 3, 5, 7]));
+
+        // Jump back on reset
+        clock.syncTo(0.0);
+        expect(clock.currentFractionalN, equals(0.0));
+        expect(engine.currentNumber, equals(0));
+      },
+    );
   });
 }

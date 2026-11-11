@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 /// Musical pitch information for a prime factor.
@@ -16,7 +17,7 @@ class PrimeNote {
   });
 }
 
-/// Provides harmonious color mapping and acoustic overtone pitch mapping for primes.
+/// Provides harmonious color and acoustic overtone pitch mapping for primes.
 class HarmonicPalette {
   /// Curated palette for the earliest foundational primes.
   static const Map<int, Color> _basePrimeColors = {
@@ -33,10 +34,26 @@ class HarmonicPalette {
     31: Color(0xFFFFB703), // Marigold
   };
 
+  /// High-contrast palette for light backgrounds.
+  static const Map<int, Color> _basePrimeColorsLight = {
+    2: Color(0xFF0284C7), // Deep Azure (Fundamental root)
+    3: Color(0xFF059669), // Rich Emerald (Fifth)
+    5: Color(0xFFD97706), // Deep Amber (Major Third)
+    7: Color(0xFFDC2626), // Crimson Coral (Dominant Seventh)
+    11: Color(0xFF7C3AED), // Deep Royal Violet (Lydian 11th)
+    13: Color(0xFFDB2777), // Deep Magenta (13th)
+    17: Color(0xFF2563EB), // Rich Blue
+    19: Color(0xFFEA580C), // Deep Tangerine
+    23: Color(0xFF0891B2), // Deep Turquoise
+    29: Color(0xFF16A34A), // Deep Sea Green
+    31: Color(0xFFCA8A04), // Dark Marigold
+  };
+
   /// Predefined overtone scale notes for small primes.
   static const Map<int, PrimeNote> _basePrimeNotes = {
     2: PrimeNote(prime: 2, noteName: 'C3', frequency: 130.81, octave: 3),
     3: PrimeNote(prime: 3, noteName: 'G3', frequency: 196.00, octave: 3),
+    4: PrimeNote(prime: 4, noteName: 'C4', frequency: 261.63, octave: 4),
     5: PrimeNote(prime: 5, noteName: 'E4', frequency: 329.63, octave: 4),
     7: PrimeNote(prime: 7, noteName: 'B♭4', frequency: 466.16, octave: 4),
     11: PrimeNote(prime: 11, noteName: 'F♯5', frequency: 739.99, octave: 5),
@@ -44,7 +61,15 @@ class HarmonicPalette {
   };
 
   /// Returns a consistent, vibrant color for any prime number.
-  static Color getColor(int prime) {
+  static Color getColor(int prime, {bool isDark = true}) {
+    if (!isDark) {
+      if (_basePrimeColorsLight.containsKey(prime)) {
+        return _basePrimeColorsLight[prime]!;
+      }
+      final goldenRatioConjugate = 0.618033988749895;
+      double h = ((prime * goldenRatioConjugate) % 1.0) * 360.0;
+      return HSLColor.fromAHSL(1.0, h, 0.85, 0.40).toColor();
+    }
     if (_basePrimeColors.containsKey(prime)) {
       return _basePrimeColors[prime]!;
     }
@@ -61,7 +86,8 @@ class HarmonicPalette {
       return _basePrimeNotes[prime]!;
     }
 
-    // Calculate microtonal frequency using overtone just-intonation folded into octaves
+    // Calculate microtonal frequency using overtone just-intonation
+    // folded into octaves
     const double fundamentalC = 130.81; // C3
     double ratio = prime.toDouble();
     while (ratio >= 2.0) {
