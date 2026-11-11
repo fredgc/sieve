@@ -1,7 +1,7 @@
 name: sieve
 description: "Interactive Sieve of Eratosthenes Audio-Visual Rhythm & Reflex Game"
 publish_to: 'none'
-version: 3.0.3+0
+version: 3.1.0+0
 
 environment:
   sdk: ">=3.13.5 <4.0.0"
@@ -9,6 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
   cupertino_icons: ^1.0.8
   shared_preferences: ^2.5.2
   package_info_plus: ^10.2.0
@@ -17,6 +20,10 @@ dependencies:
   html_tweak:
     path: ./html_tweak
   web: ^1.1.2
+  firebase_core: ^5.1.0
+  firebase_database: ^13.0.1
+  qr_flutter: ^4.1.0
+  flutter_widget_from_html_core: ^0.17.4
 
 dev_dependencies:
   flutter_test:
@@ -25,9 +32,65 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 
 flutter:
+  generate: true
   uses-material-design: true
   assets:
-    - assets/
+    - path: assets/about.html
+      transformers:
+        - package: html_tweak
+    - path: assets/about_de.html
+      transformers:
+        - package: html_tweak
+    - path: assets/about_es.html
+      transformers:
+        - package: html_tweak
+    - path: assets/about_fr.html
+      transformers:
+        - package: html_tweak
+    - path: assets/about_ja.html
+      transformers:
+        - package: html_tweak
+    - path: assets/about_lt.html
+      transformers:
+        - package: html_tweak
+    - path: assets/about_pt.html
+      transformers:
+        - package: html_tweak
+    - path: assets/about_zh.html
+      transformers:
+        - package: html_tweak
+    - assets/analogy.html
+    - assets/analogy_de.html
+    - assets/analogy_es.html
+    - assets/analogy_fr.html
+    - assets/analogy_ja.html
+    - assets/analogy_lt.html
+    - assets/analogy_pt.html
+    - assets/analogy_zh.html
+    - assets/how_to_play.html
+    - assets/how_to_play_de.html
+    - assets/how_to_play_es.html
+    - assets/how_to_play_fr.html
+    - assets/how_to_play_ja.html
+    - assets/how_to_play_lt.html
+    - assets/how_to_play_pt.html
+    - assets/how_to_play_zh.html
+    - assets/privacy.html
+    - assets/privacy_de.html
+    - assets/privacy_es.html
+    - assets/privacy_fr.html
+    - assets/privacy_ja.html
+    - assets/privacy_lt.html
+    - assets/privacy_pt.html
+    - assets/privacy_zh.html
+    - assets/terms.html
+    - assets/terms_de.html
+    - assets/terms_es.html
+    - assets/terms_fr.html
+    - assets/terms_ja.html
+    - assets/terms_lt.html
+    - assets/terms_pt.html
+    - assets/terms_zh.html
     - assets/dev/
     - assets/css/
     - assets/icons/

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>how_to_play</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="css/doc_style.css" />
+</head>
+<body>
+<p>Predict primes before they arrive! Test your reflexes and numerical
+intuition against the rhythm of the Sieve.</p>
+<hr />
+<h2 id="objective">Objective</h2>
+<p>Predict primes before they play! Press the <strong>Guess Next
+(#N+1)</strong> button (or hit <strong>Spacebar</strong>) to guess that
+the next integer in the sequence will be a <strong>prime
+number</strong>.</p>
+<hr />
+<h2 id="how-to-predict-the-next-prime">How to Predict the Next
+Prime</h2>
+<ul>
+<li><p><strong>Proximity Waves:</strong> Watch the progress bars in the
+dashboard at the bottom. If any wave is approaching 100%, the upcoming
+number is a multiple of that prime (i.e. composite). If all waves remain
+well below 100%, the next number is prime!</p></li>
+<li><p><strong>Silence vs. Chords:</strong> Primes are silent when first
+discovered. Composite numbers ring out with harmonic chords formed by
+all their prime factors.</p></li>
+<li><p><strong>Know Your Primes:</strong> 2, 3, 5, 7, 11, 13, 17, 19,
+23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89,
+97…</p></li>
+</ul>
+<hr />
+<h2 id="scoring-guess-tracking">Scoring &amp; Guess Tracking</h2>
+<ul>
+<li><p><strong>+1 Point:</strong> Awarded for every correct prime
+guess.</p></li>
+<li><p><strong>-1 Point:</strong> Deducted for incorrect guesses on
+composite numbers. Scores can be negative.</p></li>
+<li><p><strong>Green Border:</strong> Highlighted around boxes in the
+number stream where your guess was correct!</p></li>
+<li><p><strong>Red Border:</strong> Highlighted around boxes where your
+guess was incorrect.</p></li>
+<li><p><strong>High Scores &amp; Stats:</strong> Best scores and prime
+streaks persist across browser sessions. Tap the Leaderboard icon in the
+control bar to view career accuracy and records.</p></li>
+</ul>
+<hr />
+<h2 id="keyboard-shortcuts">Keyboard Shortcuts</h2>
+<ul>
+<li><p><strong>P / p:</strong> Play / Pause tempo clock</p></li>
+<li><p><strong>Spacebar:</strong> Guess next number (#N+1) is
+prime</p></li>
+<li><p><strong>Left / Right Arrow:</strong> Slow down / Speed up tempo
+(0.2 Hz steps)</p></li>
+<li><p><strong>Up / Down Arrow:</strong> Scroll number stream grid 1/2
+box</p></li>
+</ul>
+<hr />
+<h2 id="pro-tips">Pro Tips</h2>
+<ul>
+<li><p>Use the <strong>Step Forward</strong> button to practice
+predicting numbers one step at a time at your own pace.</p></li>
+<li><p>Controls are anchored at the bottom of the screen to stay steady
+as new primes are discovered.</p></li>
+</ul>
+</body>
+</html>

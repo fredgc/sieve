@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>privacy</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="css/doc_style.css" />
+</head>
+<body>
+<h1 id="privacy-policy-for-sieve-of-eratosthenes">Privacy Policy for
+Sieve of Eratosthenes</h1>
+<p><em>Last Updated: October 31, 2026</em></p>
+<hr />
+<h2 id="zero-pii-privacy-by-design">Zero-PII &amp; Privacy by
+Design</h2>
+<p>The <strong>Sieve of Eratosthenes</strong> (“the App”) is an
+interactive educational math game and rhythm demonstration. We believe
+in strict <strong>Privacy by Design</strong>: we do not collect personal
+information, we do not require user accounts, we do not track you across
+the web, and we do not sell or monetize your data.</p>
+<p>This App is built for students, educators, and math/music enthusiasts
+of all ages.</p>
+<hr />
+<h2 id="information-we-do-not-collect">Information We Do NOT
+Collect</h2>
+<p>To maintain a zero-PII (Personal Identifiable Information)
+architecture:</p>
+<ul>
+<li><p><strong>No User Accounts:</strong> We never ask for or store your
+name, email address, phone number, or password.</p></li>
+<li><p><strong>No Device Sensors or Permissions:</strong> We do not
+access your device location (GPS), camera, microphone, photo library,
+contacts, or local files.</p></li>
+<li><p><strong>No Third-Party Trackers or Advertisements:</strong> The
+App is 100% ad-free and contains no advertising SDKs, marketing
+trackers, or cross-site tracking cookies (no Google Analytics, Facebook
+Pixel, etc.).</p></li>
+</ul>
+<hr />
+<h2 id="information-handled-during-gameplay">Information Handled During
+Gameplay</h2>
+<h3 id="single-player-mode-100-on-device">Single-Player Mode (100%
+On-Device)</h3>
+<ul>
+<li><p>All single-player statistics—including all-time high scores,
+longest prime streaks, guess accuracy, tempo settings, and audio
+preferences—are saved exclusively in your browser’s local storage
+(<code>localStorage</code> / device
+<code>SharedPreferences</code>).</p></li>
+<li><p>This data remains strictly on your device and is never uploaded
+to any server.</p></li>
+</ul>
+<h3 id="multiplayer-mode-ephemeral-self-destructing">Multiplayer Mode
+(Ephemeral / Self-Destructing)</h3>
+<p>When you create or join a multiplayer room:</p>
+<ul>
+<li><p><strong>Screen Name:</strong> You may provide a temporary
+nickname (e.g., “Alice” or “Player 1”) to identify yourself to other
+players in the room.</p></li>
+<li><p><strong>Gameplay State:</strong> Live scores, streaks, prime
+prediction guesses, and the 4-character room code are transmitted over
+an encrypted WebSocket connection solely to synchronize the match in
+real time.</p></li>
+<li><p><strong>Automatic Deletion:</strong> Multiplayer room data is
+strictly temporary. The entire room and all player entries are
+automatically deleted immediately upon match completion or after 10
+minutes of inactivity.</p></li>
+</ul>
+<hr />
+<h2 id="third-party-infrastructure">Third-Party Infrastructure</h2>
+<p>The App uses <strong>Google Firebase</strong> (Google LLC) for static
+web hosting and real-time multiplayer message synchronization:</p>
+<ul>
+<li><p>Google processes standard technical connection metadata (such as
+IP addresses and network routing headers) as necessary to establish
+encrypted WebSocket connections and protect against denial-of-service
+attacks.</p></li>
+<li><p>For more information on Google’s privacy practices, refer to <a
+href="https://policies.google.com/privacy">Google’s Privacy Policy</a>
+.</p></li>
+</ul>
+<hr />
+<h2 id="children-classroom-safe-coppa-ferpa">Children &amp; Classroom
+Safe (COPPA &amp; FERPA)</h2>
+<p>The App is designed to be fully safe for children and classroom
+environments:</p>
+<ul>
+<li><p>We comply with the <strong>Children’s Online Privacy Protection
+Act (COPPA)</strong> and the <strong>Family Educational Rights and
+Privacy Act (FERPA)</strong>.</p></li>
+<li><p>Because the App does not request, collect, or store any personal
+information from users of any age, it does not require parental consent
+and can be safely deployed on school devices and in educational
+settings.</p></li>
+</ul>
+<hr />
+<h2 id="questions-contact">Questions &amp; Contact</h2>
+<p>The Sieve of Eratosthenes is an open-source project. If you have any
+questions, feedback, or concerns regarding this Privacy Policy:</p>
+<ul>
+<li><p><strong>File an Issue on GitHub:</strong> <a
+href="https://github.com/fredgc/sieve/issues">https://github.com/fredgc/sieve/issues</a></p></li>
+<li><p><strong>Visit the Project Website:</strong> <a
+href="https://www.gchouse.org">https://www.gchouse.org</a></p></li>
+</ul>
+</body>
+</html>

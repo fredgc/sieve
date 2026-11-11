@@ -1,3 +1,8 @@
+# User / Project custom ignores
+cached/
+.git_chain_data
+untranslated_messages.json
+
 # Miscellaneous
 *.class
 *.log
@@ -11,6 +16,7 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+out/
 
 # IntelliJ related
 *.iml
@@ -27,7 +33,9 @@ migrate_working_dir/
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
+.packages
 .pub-cache/
 .pub/
 /build/
@@ -43,6 +51,41 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/app/.cxx
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+android/key.properties
+android/app/src/main/res/values/strings.xml
+
+# Archives and binaries
+*.aab
+*.aar
+*.apk
+*.tgz
+*.zip
 
 # Widget Preview related
 .widget_preview/
+
+# Firebase cache
+.firebase/
+
+# Firebase secrets (regenerate them using "flutterfire configure")
+firebase_options.dart
+lib/firebase_options.dart
+google-services.json
+android/app/google-services.json
+
+# Environment variables
+.env
+.env.*
+
+# Node / NPM (if present)
+.npm
+package-lock.json
+node_modules
+.eslintcache
+.node_repl_history
+.yarn-integrity

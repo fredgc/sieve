@@ -19,7 +19,11 @@ class PrimeFactor {
       '8': '⁸',
       '9': '⁹',
     };
-    final powerStr = power.toString().split('').map((c) => superscripts[c] ?? c).join();
+    final powerStr = power
+        .toString()
+        .split('')
+        .map((c) => superscripts[c] ?? c)
+        .join();
     return '$prime$powerStr';
   }
 
@@ -29,7 +33,10 @@ class PrimeFactor {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PrimeFactor && runtimeType == other.runtimeType && prime == other.prime && power == other.power;
+      other is PrimeFactor &&
+          runtimeType == other.runtimeType &&
+          prime == other.prime &&
+          power == other.power;
 
   @override
   int get hashCode => prime.hashCode ^ power.hashCode;
@@ -70,7 +77,8 @@ class SieveNumber {
   List<int> get distinctPrimes => factors.map((f) => f.prime).toList();
 
   @override
-  String toString() => 'SieveNumber($number, isPrime: $isPrime, factors: $factorizationDisplay)';
+  String toString() =>
+      'SieveNumber($number, isPrime: $isPrime, factors: $factorizationDisplay)';
 }
 
 /// Core deterministic Sieve of Eratosthenes engine.
@@ -128,12 +136,22 @@ class SieveEngine {
       return _cache[n]!;
     }
     if (n == 0) {
-      const res = SieveNumber(number: 0, isPrime: false, factors: [], specialStatus: 'Ready...');
+      const res = SieveNumber(
+        number: 0,
+        isPrime: false,
+        factors: [],
+        specialStatus: 'Ready...',
+      );
       _cache[0] = res;
       return res;
     }
     if (n == 1) {
-      const res = SieveNumber(number: 1, isPrime: false, factors: [], specialStatus: 'Go!');
+      const res = SieveNumber(
+        number: 1,
+        isPrime: false,
+        factors: [],
+        specialStatus: 'Go!',
+      );
       _cache[1] = res;
       return res;
     }
@@ -171,7 +189,10 @@ class SieveEngine {
       }
     }
 
-    final isPrime = factors.length == 1 && factors.first.power == 1 && factors.first.prime == n;
+    final isPrime =
+        factors.length == 1 &&
+        factors.first.power == 1 &&
+        factors.first.prime == n;
     if (isPrime && !_discoveredPrimes.contains(n)) {
       _discoveredPrimes.add(n);
     }
@@ -195,8 +216,20 @@ class SieveEngine {
   /// Pure mathematical factorization helper for factor inspector or testing.
   /// Does NOT modify the active sieve state or discovered primes.
   static SieveNumber factorizeStatic(int n) {
-    if (n == 0) return const SieveNumber(number: 0, isPrime: false, factors: [], specialStatus: 'Ready...');
-    if (n == 1) return const SieveNumber(number: 1, isPrime: false, factors: [], specialStatus: 'Go!');
+    if (n == 0)
+      return const SieveNumber(
+        number: 0,
+        isPrime: false,
+        factors: [],
+        specialStatus: 'Ready...',
+      );
+    if (n == 1)
+      return const SieveNumber(
+        number: 1,
+        isPrime: false,
+        factors: [],
+        specialStatus: 'Go!',
+      );
 
     final factors = <PrimeFactor>[];
     int remaining = n;
@@ -215,7 +248,10 @@ class SieveEngine {
     if (remaining > 1) {
       factors.add(PrimeFactor(prime: remaining, power: 1));
     }
-    final isPrime = factors.length == 1 && factors.first.power == 1 && factors.first.prime == n;
+    final isPrime =
+        factors.length == 1 &&
+        factors.first.power == 1 &&
+        factors.first.prime == n;
     return SieveNumber(number: n, isPrime: isPrime, factors: factors);
   }
 

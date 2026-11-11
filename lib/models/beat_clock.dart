@@ -1,5 +1,7 @@
 import 'dart:async';
+
 import 'package:flutter/scheduler.dart';
+
 import 'sieve_engine.dart';
 
 typedef OnBeatCallback = void Function(SieveNumber number);
@@ -109,6 +111,35 @@ class BeatClock {
     _baseFractionalN = 0.0;
     _stopwatch.reset();
     onTick?.call(_baseFractionalN);
+  }
+
+  /// Synchronizes or catches up the clock and engine to a specific fractional position.
+  /// If [emitBeatForCurrent] is true and an integer was reached, emits [onBeat] for that integer.
+  void syncTo(double targetFracN, {bool emitBeatForCurrent = false}) {
+    if (targetFracN < 0.0) targetFracN = 0.0;
+    final int targetInt = targetFracN.floor();
+
+    if (targetInt < engine.currentNumber) {
+      engine.reset();
+    }
+    while (engine.currentNumber < targetInt) {
+      engine.step();
+    }
+
+    _baseFractionalN = targetFracN;
+    if (_isPlaying) {
+      _stopwatch.reset();
+      _stopwatch.start();
+    }
+
+    if (emitBeatForCurrent && targetInt > 0) {
+      final currentNum = engine.getPlayedNumber(targetInt);
+      if (currentNum != null) {
+        onBeat?.call(currentNum);
+      }
+    }
+
+    onTick?.call(targetFracN);
   }
 
   /// Advance by a single integer beat (useful when paused or in step-by-step mode).

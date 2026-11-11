@@ -1,11 +1,15 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+
 import '../models/harmonic_palette.dart';
 import '../models/sieve_engine.dart';
+import '../l10n/l10n_extension.dart';
 
 /// 2D number grid where numbers flow left-to-right and top-to-bottom.
 /// Shows 4 rows of fixed-size boxes in the viewport.
-/// Includes a continuous playhead token/line that glides along the grid and strikes each box.
+/// Includes a continuous playhead token/line that glides along the grid
+/// and strikes each box.
 class NumberGrid extends StatefulWidget {
   final SieveEngine engine;
   final double fractionalN;
@@ -87,7 +91,11 @@ class _NumberGridState extends State<NumberGrid> {
     if (currentInt == 0) {
       _lastAutoScrolledRow = 0;
       if (_scrollController.offset > 0) {
-        _scrollController.animateTo(0.0, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+        _scrollController.animateTo(
+          0.0,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+        );
       }
       return;
     }
@@ -104,7 +112,10 @@ class _NumberGridState extends State<NumberGrid> {
     // Center active row in viewport dynamically
     final viewportHeight = _scrollController.position.viewportDimension;
     final activeRowTop = currentRow * rowStep;
-    final double targetOffset = math.max(0.0, activeRowTop - (viewportHeight / 2) + (rowHeight / 2));
+    final double targetOffset = math.max(
+      0.0,
+      activeRowTop - (viewportHeight / 2) + (rowHeight / 2),
+    );
 
     _scrollController.animateTo(
       targetOffset,
@@ -123,14 +134,21 @@ class _NumberGridState extends State<NumberGrid> {
     const double spacing = 6.0;
     const double padding = 10.0;
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF130722),
+        color: isDark ? const Color(0xFF130722) : const Color(0xFFFAF7FD),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF380C59), width: 1.5),
+        border: Border.all(
+          color: isDark ? const Color(0xFF380C59) : const Color(0xFFE2D9F3),
+          width: 1.5,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.4),
+            color: isDark
+                ? Colors.black.withValues(alpha: 0.4)
+                : const Color(0xFF9D4EDD).withValues(alpha: 0.08),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -141,9 +159,14 @@ class _NumberGridState extends State<NumberGrid> {
         child: LayoutBuilder(
           builder: (context, constraints) {
             final availableWidth = constraints.maxWidth - (padding * 2);
-            final crossAxisCount = _getCrossAxisCount(availableWidth, currentInt);
+            final crossAxisCount = _getCrossAxisCount(
+              availableWidth,
+              currentInt,
+            );
             _actualCrossAxisCount = crossAxisCount;
-            final cellWidth = (availableWidth - ((crossAxisCount - 1) * spacing)) / crossAxisCount;
+            final cellWidth =
+                (availableWidth - ((crossAxisCount - 1) * spacing)) /
+                crossAxisCount;
 
             return Stack(
               children: [
@@ -158,14 +181,16 @@ class _NumberGridState extends State<NumberGrid> {
                       crossAxisCount: crossAxisCount,
                       mainAxisSpacing: spacing,
                       crossAxisSpacing: spacing,
-                      mainAxisExtent: cellHeight, // Fixed height: never changes size
+                      mainAxisExtent:
+                          cellHeight, // Fixed height: never changes size
                     ),
                     itemCount: totalNumbers,
                     itemBuilder: (context, index) {
                       final n = index;
                       final isPlayed = widget.engine.isNumberPlayed(n);
                       final isCurrent = n == currentInt;
-                      final isPrimeDiscovered = widget.engine.discoveredPrimes.contains(n);
+                      final isPrimeDiscovered = widget.engine.discoveredPrimes
+                          .contains(n);
                       final guessCorrect = widget.userGuesses[n];
                       final isPendingGuess = widget.pendingGuessNumber == n;
 
@@ -178,7 +203,9 @@ class _NumberGridState extends State<NumberGrid> {
                         isPendingGuess: isPendingGuess,
                         cellWidth: cellWidth,
                         cellHeight: cellHeight,
-                        sieveNumber: isPlayed ? widget.engine.getPlayedNumber(n) : null,
+                        sieveNumber: isPlayed
+                            ? widget.engine.getPlayedNumber(n)
+                            : null,
                         onTap: () => widget.onNumberTapped?.call(n),
                       );
                     },
@@ -196,8 +223,11 @@ class _NumberGridState extends State<NumberGrid> {
                       cellHeight: cellHeight,
                       spacing: spacing,
                       padding: padding,
-                      scrollOffset: _scrollController.hasClients ? _scrollController.offset : 0.0,
+                      scrollOffset: _scrollController.hasClients
+                          ? _scrollController.offset
+                          : 0.0,
                       engine: widget.engine,
+                      isDark: isDark,
                     ),
                   ),
                 ),
@@ -210,7 +240,8 @@ class _NumberGridState extends State<NumberGrid> {
   }
 }
 
-/// Custom painter that draws a vertical line/token moving along the active box as fractional time elapses.
+/// Custom painter that draws a vertical line/token moving along the active
+/// box as fractional time elapses.
 class _PlayheadCursorPainter extends CustomPainter {
   final double fractionalN;
   final int crossAxisCount;
@@ -220,6 +251,7 @@ class _PlayheadCursorPainter extends CustomPainter {
   final double padding;
   final double scrollOffset;
   final SieveEngine engine;
+  final bool isDark;
 
   _PlayheadCursorPainter({
     required this.fractionalN,
@@ -230,6 +262,7 @@ class _PlayheadCursorPainter extends CustomPainter {
     required this.padding,
     required this.scrollOffset,
     required this.engine,
+    required this.isDark,
   });
 
   @override
@@ -248,8 +281,10 @@ class _PlayheadCursorPainter extends CustomPainter {
 
     final isPrime = engine.discoveredPrimes.contains(currentInt);
     final Color cursorColor = currentInt < 2
-        ? const Color(0xFF00B4D8)
-        : (isPrime ? const Color(0xFFFFD166) : const Color(0xFFE0D0FF));
+        ? (isDark ? const Color(0xFF00B4D8) : const Color(0xFF0284C7))
+        : (isPrime
+            ? (isDark ? const Color(0xFFFFD166) : const Color(0xFFD97706))
+            : (isDark ? const Color(0xFFE0D0FF) : const Color(0xFF7B2CBF)));
 
     // Active box highlight outline
     final cellRect = RRect.fromRectAndRadius(
@@ -337,6 +372,7 @@ class _GridCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     Color bgColor;
     Color borderColor;
     Color textColor;
@@ -344,29 +380,41 @@ class _GridCell extends StatelessWidget {
 
     if (!isPlayed) {
       // Unplayed: neutral, plain integer only, no prime or factor info revealed
-      bgColor = const Color(0xFF180E28);
-      borderColor = const Color(0xFF28143F);
-      textColor = const Color(0xFF75658E);
+      bgColor = isDark ? const Color(0xFF180E28) : const Color(0xFFF1ECF8);
+      borderColor = isDark ? const Color(0xFF28143F) : const Color(0xFFDDD3EC);
+      textColor = isDark ? const Color(0xFF75658E) : const Color(0xFF9E8DB5);
     } else if (isCurrent) {
       // Current active number: highlighted
-      bgColor = isPrimeDiscovered ? const Color(0xFF4A1800) : const Color(0xFF380C59);
-      borderColor = isPrimeDiscovered ? const Color(0xFFFFD166) : const Color(0xFFE0D0FF);
-      textColor = Colors.white;
+      bgColor = isPrimeDiscovered
+          ? (isDark ? const Color(0xFF4A1800) : const Color(0xFFFEF3C7))
+          : (isDark ? const Color(0xFF380C59) : const Color(0xFFEDE7F6));
+      borderColor = isPrimeDiscovered
+          ? (isDark ? const Color(0xFFFFD166) : const Color(0xFFD97706))
+          : (isDark ? const Color(0xFFE0D0FF) : const Color(0xFF7B2CBF));
+      textColor = isPrimeDiscovered
+          ? (isDark ? Colors.white : const Color(0xFF78350F))
+          : (isDark ? Colors.white : const Color(0xFF2E1065));
       borderWidth = 2.0;
     } else {
       // Already played number
       if (number == 0 || number == 1) {
-        bgColor = const Color(0xFF1E1035);
-        borderColor = const Color(0xFF4B2375);
-        textColor = const Color(0xFFD4C2FC);
+        bgColor = isDark ? const Color(0xFF1E1035) : const Color(0xFFF3EDFC);
+        borderColor = isDark
+            ? const Color(0xFF4B2375)
+            : const Color(0xFFD6C5EE);
+        textColor = isDark ? const Color(0xFFD4C2FC) : const Color(0xFF5B3E84);
       } else if (isPrimeDiscovered) {
-        bgColor = const Color(0xFF2B1300);
-        borderColor = const Color(0xFFFFD166).withValues(alpha: 0.8);
-        textColor = const Color(0xFFFFD166);
+        bgColor = isDark ? const Color(0xFF2B1300) : const Color(0xFFFEF3C7);
+        borderColor = isDark
+            ? const Color(0xFFFFD166).withValues(alpha: 0.8)
+            : const Color(0xFFF59E0B);
+        textColor = isDark ? const Color(0xFFFFD166) : const Color(0xFF92400E);
       } else {
-        bgColor = const Color(0xFF1A0B2C);
-        borderColor = const Color(0xFF3E1463);
-        textColor = const Color(0xFFE2D6F5);
+        bgColor = isDark ? const Color(0xFF1A0B2C) : const Color(0xFFFFFFFF);
+        borderColor = isDark
+            ? const Color(0xFF3E1463)
+            : const Color(0xFFDDD2EF);
+        textColor = isDark ? const Color(0xFFE2D6F5) : const Color(0xFF2A1448);
       }
     }
 
@@ -374,33 +422,36 @@ class _GridCell extends StatelessWidget {
     List<BoxShadow>? shadows;
     if (guessCorrect == true) {
       // Correct guess: Vibrant Green border
-      borderColor = const Color(0xFF06D6A0);
+      borderColor = isDark ? const Color(0xFF06D6A0) : const Color(0xFF059669);
       borderWidth = 2.5;
       shadows = [
         BoxShadow(
-          color: const Color(0xFF06D6A0).withValues(alpha: 0.45),
+          color: (isDark ? const Color(0xFF06D6A0) : const Color(0xFF059669))
+              .withValues(alpha: 0.45),
           blurRadius: 8,
           spreadRadius: 1,
         ),
       ];
     } else if (guessCorrect == false) {
       // Incorrect guess: Vibrant Red border
-      borderColor = const Color(0xFFEF476F);
+      borderColor = isDark ? const Color(0xFFEF476F) : const Color(0xFFDC2626);
       borderWidth = 2.5;
       shadows = [
         BoxShadow(
-          color: const Color(0xFFEF476F).withValues(alpha: 0.45),
+          color: (isDark ? const Color(0xFFEF476F) : const Color(0xFFDC2626))
+              .withValues(alpha: 0.45),
           blurRadius: 8,
           spreadRadius: 1,
         ),
       ];
     } else if (isPendingGuess && !isPlayed) {
       // Pending active guess for next number: Golden amber glow
-      borderColor = const Color(0xFFFFD166);
+      borderColor = isDark ? const Color(0xFFFFD166) : const Color(0xFFD97706);
       borderWidth = 2.0;
       shadows = [
         BoxShadow(
-          color: const Color(0xFFFFD166).withValues(alpha: 0.35),
+          color: (isDark ? const Color(0xFFFFD166) : const Color(0xFFD97706))
+              .withValues(alpha: 0.35),
           blurRadius: 6,
           spreadRadius: 1,
         ),
@@ -419,93 +470,122 @@ class _GridCell extends StatelessWidget {
           boxShadow: shadows,
         ),
         padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // The number itself (never changes size)
-            Text(
-              '$number',
-              style: TextStyle(
-                color: textColor,
-                fontSize: number >= 100 ? 13 : 15,
-                fontWeight: (isCurrent || isPrimeDiscovered || guessCorrect != null)
-                    ? FontWeight.bold
-                    : FontWeight.w600,
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // The number itself (never changes size)
+              Text(
+                '$number',
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: number >= 100 ? 13 : 15,
+                  fontWeight:
+                      (isCurrent || isPrimeDiscovered || guessCorrect != null)
+                      ? FontWeight.bold
+                      : FontWeight.w600,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 3),
-            // Subtitle / composition area: strictly revealed only after played
-            if (isPendingGuess && !isPlayed)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFD166).withValues(alpha: 0.25),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-                child: const Text(
-                  'GUESS',
-                  style: TextStyle(
-                    color: Color(0xFFFFD166),
-                    fontSize: 7.5,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 0.4,
+              const SizedBox(height: 3),
+              // Subtitle / composition area: revealed only after played
+              if (isPendingGuess && !isPlayed)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 4,
+                    vertical: 1,
                   ),
-                ),
-              )
-            else if (!isPlayed)
-              const SizedBox(height: 14)
-            else if (number == 0)
-              const Text(
-                'Ready',
-                style: TextStyle(color: Color(0xFFA08FC2), fontSize: 9, fontWeight: FontWeight.bold),
-              )
-            else if (number == 1)
-              const Text(
-                'Go!',
-                style: TextStyle(color: Color(0xFF06D6A0), fontSize: 9, fontWeight: FontWeight.bold),
-              )
-            else if (isPrimeDiscovered)
-              // ONLY show "PRIME" if the prime has already been discovered!
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFD166),
-                  borderRadius: BorderRadius.circular(3),
-                ),
-                child: const Text(
-                  'PRIME',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 8,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 0.3,
+                  decoration: BoxDecoration(
+                    color: (isDark
+                            ? const Color(0xFFFFD166)
+                            : const Color(0xFFD97706))
+                        .withValues(alpha: 0.25),
+                    borderRadius: BorderRadius.circular(2),
                   ),
-                ),
-              )
-            else if (sieveNumber != null && sieveNumber!.factors.isNotEmpty)
-              // Composite: show factor composition (e.g. 2², 2·3, 2²·3)
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: _buildCompositionSpans(sieveNumber!),
-                ),
-              )
-            else
-              const SizedBox(height: 14),
-          ],
+                  child: Text(
+                    context.l10n.gridGuess,
+                    style: TextStyle(
+                      color: isDark
+                          ? const Color(0xFFFFD166)
+                          : const Color(0xFFB45309),
+                      fontSize: 7.5,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.4,
+                    ),
+                  ),
+                )
+              else if (!isPlayed)
+                const SizedBox(height: 14)
+              else if (number == 0)
+                Text(
+                  context.l10n.gridReady,
+                  style: TextStyle(
+                    color: isDark
+                        ? const Color(0xFFA08FC2)
+                        : const Color(0xFF5A4974),
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              else if (number == 1)
+                Text(
+                  context.l10n.gridGo,
+                  style: TextStyle(
+                    color: isDark
+                        ? const Color(0xFF06D6A0)
+                        : const Color(0xFF059669),
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              else if (isPrimeDiscovered)
+                // ONLY show "PRIME" if the prime has already been discovered!
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 4,
+                    vertical: 1,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? const Color(0xFFFFD166)
+                        : const Color(0xFFF59E0B),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                  child: Text(
+                    context.l10n.gridPrime,
+                    style: TextStyle(
+                      color: isDark ? Colors.black : Colors.white,
+                      fontSize: 8,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.3,
+                    ),
+                  ),
+                )
+              else if (sieveNumber != null && sieveNumber!.factors.isNotEmpty)
+                // Composite: show factor composition (e.g. 2², 2·3, 2²·3)
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: _buildCompositionSpans(sieveNumber!, isDark),
+                  ),
+                )
+              else
+                const SizedBox(height: 14),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  List<Widget> _buildCompositionSpans(SieveNumber sn) {
+  List<Widget> _buildCompositionSpans(SieveNumber sn, bool isDark) {
     final widgets = <Widget>[];
     for (int i = 0; i < sn.factors.length; i++) {
       final f = sn.factors[i];
-      final color = HarmonicPalette.getColor(f.prime);
+      final color = HarmonicPalette.getColor(f.prime, isDark: isDark);
       widgets.add(
         Text(
           f.toSuperscript(),
@@ -518,9 +598,12 @@ class _GridCell extends StatelessWidget {
       );
       if (i < sn.factors.length - 1) {
         widgets.add(
-          const Text(
+          Text(
             '·',
-            style: TextStyle(color: Colors.white38, fontSize: 8),
+            style: TextStyle(
+              color: isDark ? Colors.white38 : Colors.black38,
+              fontSize: 8,
+            ),
           ),
         );
       }

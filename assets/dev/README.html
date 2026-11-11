@@ -89,8 +89,7 @@
   <link rel="stylesheet" href="../css/doc_style.css" />
 </head>
 <body>
-<h1 id="sieve-of-eratosthenes-v3.0.30">Sieve of Eratosthenes
-(v3.0.3+0)</h1>
+<h1 id="sieve-of-eratosthenes">Sieve of Eratosthenes</h1>
 <p>An interactive, educational rhythm game and audio-visual mathematical
 demonstration of the <strong>Sieve of Eratosthenes</strong>, built with
 Flutter for Web and Android.</p>
@@ -104,32 +103,45 @@ Cyrene</strong>. It is one of the most elegant and efficient algorithms
 for finding all prime numbers up to any limit by systematically marking
 multiples of each discovered prime as composite.</p>
 <p>This project transforms the algorithm into a living, rhythmic,
-audio-visual experience and number-reflex game: * <strong>The Sieve
-Rhythm Clock:</strong> The app counts forward at an adjustable tempo
-(default:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.0</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow><mo>=</mo><mn>60</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> BPM</mtext></mrow></mrow><annotation encoding="application/x-tex">1.0\text{ Hz} = 60\text{ BPM}</annotation></semantics></math>).
-* <strong>Atomic Prime Tones:</strong> Each discovered prime is assigned
-an atomic musical tone derived from the natural overtone series
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>=</mo><msub><mi>C</mi><mn>3</mn></msub><mo>,</mo><mn>3</mn><mo>=</mo><msub><mi>G</mi><mn>3</mn></msub><mo>,</mo><mn>5</mn><mo>=</mo><msub><mi>E</mi><mn>4</mn></msub><mo>,</mo><mn>7</mn><mo>=</mo><msubsup><mi>B</mi><mn>4</mn><mi>♭</mi></msubsup><mo>,</mo><mn>11</mn><mo>=</mo><msubsup><mi>F</mi><mn>5</mn><mi>♯</mi></msubsup><mo>,</mo><mn>13</mn><mo>=</mo><msub><mi>A</mi><mn>5</mn></msub></mrow><annotation encoding="application/x-tex">2 = C_3, 3 = G_3, 5 = E_4, 7 = B^\flat_4, 11 = F^\sharp_5, 13 = A_5</annotation></semantics></math>).
-* <strong>Composite Harmonic Chords:</strong> When the rhythm reaches a
-composite number
+audio-visual experience and number-reflex game:</p>
+<ul>
+<li><p><strong>The Sieve Rhythm Clock:</strong> The app counts forward
+at an adjustable tempo
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">0.2\text{ Hz}</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5.0</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">5.0\text{ Hz}</annotation></semantics></math>,
+default
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.0</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow><mo>=</mo><mn>60</mn><mtext mathvariant="normal">
+BPM</mtext></mrow><annotation encoding="application/x-tex">1.0\text{ Hz} = 60\text{
+BPM}</annotation></semantics></math>).</p></li>
+<li><p><strong>Atomic Prime Tones:</strong> Each discovered prime is
+assigned an atomic musical tone derived from the natural overtone series
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>=</mo><msub><mi>C</mi><mn>3</mn></msub><mo>,</mo><mn>3</mn><mo>=</mo><msub><mi>G</mi><mn>3</mn></msub><mo>,</mo><mn>5</mn><mo>=</mo><msub><mi>E</mi><mn>4</mn></msub><mo>,</mo><mn>7</mn><mo>=</mo><msubsup><mi>B</mi><mn>4</mn><mi>♭</mi></msubsup><mo>,</mo><mn>11</mn><mo>=</mo><msubsup><mi>F</mi><mn>5</mn><mi>♯</mi></msubsup><mo>,</mo><mn>13</mn><mo>=</mo><msub><mi>A</mi><mn>5</mn></msub></mrow><annotation encoding="application/x-tex">2 = C_3, 3 = G_3, 5 = E_4, 7
+= B^\flat_4, 11 = F^\sharp_5, 13 = A_5</annotation></semantics></math>).
+Primes are silent when first discovered and only sound when they are
+part of a composite.</p></li>
+<li><p><strong>Composite Harmonic Chords:</strong> When the rhythm
+reaches a composite number
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>,
 it sounds all of its prime factors simultaneously as a musical chord
 (e.g. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>=</mo><mn>2</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">6 = 2 \times 3</annotation></semantics></math>
 plays an open fifth chord
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>−</mo><mi>G</mi></mrow><annotation encoding="application/x-tex">C - G</annotation></semantics></math>;
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30</mn><mo>=</mo><mn>2</mn><mo>×</mo><mn>3</mn><mo>×</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">30 = 2 \times 3 \times 5</annotation></semantics></math>
-resolves into a complete C Major triad
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>−</mo><mi>E</mi><mo>−</mo><mi>G</mi></mrow><annotation encoding="application/x-tex">C - E - G</annotation></semantics></math>).
-* <strong>Prime Multiplicities (Powers) as Octaves:</strong> Numbers
-with repeated factors
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30</mn><mo>=</mo><mn>2</mn><mo>×</mo><mn>3</mn><mo>×</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">30 = 2 \times 3
+\times 5</annotation></semantics></math> resolves into a complete C
+Major triad
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>−</mo><mi>E</mi><mo>−</mo><mi>G</mi></mrow><annotation encoding="application/x-tex">C - E - G</annotation></semantics></math>).</p></li>
+<li><p><strong>Prime Multiplicities (Powers) as Octaves:</strong>
+Numbers with repeated factors
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>,</mo><mn>8</mn><mo>=</mo><msup><mn>2</mn><mn>3</mn></msup><mo>,</mo><mn>12</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">4 = 2^2, 8 = 2^3, 12 = 2^2 \times 3</annotation></semantics></math>)
-layer higher octave harmonics, enriching the timbre. *
-<strong>Continuous Proximity Waves:</strong> The bottom dashboard
+layer higher octave harmonics, enriching the timbre (toggleable in the
+top app bar).</p></li>
+<li><p><strong>Continuous Proximity Waves:</strong> The bottom dashboard
 displays real-time progress bars for each discovered prime using the
-continuous triangle wave metric:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mo stretchy="true" form="prefix">|</mo><mn>2</mn><mo>⋅</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">speed</mtext><mo>⋅</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mrow><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mrow><mi>mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">)</mo></mrow><mi>p</mi></mfrac><mo>−</mo><mn>1.0</mn><mo stretchy="true" form="postfix">|</mo></mrow></mrow><annotation encoding="application/x-tex">f(t) = \left| 2 \cdot \frac{((\text{speed} \cdot t) \pmod p)}{p} - 1.0 \right|</annotation></semantics></math>
-smoothly peaking at
+continuous triangle wave metric:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mo stretchy="true" form="prefix">|</mo><mn>2</mn><mo>⋅</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">speed</mtext><mo>⋅</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mrow><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mrow><mi>mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">)</mo></mrow><mi>p</mi></mfrac><mo>−</mo><mn>1.0</mn><mo stretchy="true" form="postfix">|</mo></mrow></mrow><annotation encoding="application/x-tex">f(t) = \left| 2 \cdot \frac{((\text{speed} \cdot t) \pmod p)}{p} - 1.0 \right|</annotation></semantics></math></p></li>
+</ul>
+<p>smoothly peaking at
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.0</mn><annotation encoding="application/x-tex">1.0</annotation></semantics></math>
 exactly at multiples of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
@@ -137,92 +149,131 @@ and falling to
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.0</mn><annotation encoding="application/x-tex">0.0</annotation></semantics></math>
 at midpoints.</p>
 <hr />
+<h2 id="documentation">Documentation</h2>
+<p>Comprehensive documentation is available in the <code>doc/</code>
+directory:</p>
+<ul>
+<li><p><a href="doc/about.md">doc/about.md</a> : Algorithmic background,
+project history, and author attribution.</p></li>
+<li><p><a href="doc/analogy.md">doc/analogy.md</a> : Mathematical and
+musical analogy connecting prime factors to acoustic harmonies.</p></li>
+<li><p><a href="doc/how_to_play.md">doc/how_to_play.md</a> : Game
+mechanics, keyboard shortcuts, scoring rules, and speed
+controls.</p></li>
+<li><p><a href="doc/privacy.md">doc/privacy.md</a> : Application privacy
+policy and local storage disclosure.</p></li>
+<li><p><a href="doc/terms.md">doc/terms.md</a> : Terms of
+service.</p></li>
+</ul>
+<hr />
 <h2 id="current-implementation-status">2. Current Implementation
 Status</h2>
-<h3 id="completed-stage-1">Completed (Stage 1)</h3>
+<h3 id="completed-stages-1-2-3-4">Completed (Stages 1, 2, 3 &amp;
+4)</h3>
 <ul class="task-list">
-<li><label><input type="checkbox" checked="" /><strong>Project
-Infrastructure &amp; Tooling:</strong></label>
+<li><p><label><input type="checkbox" checked="" /><strong>Stage 1:
+Mathematical Sieve Core &amp; Beat Clock:</strong></label></p>
 <ul>
-<li>Full Flutter Web &amp; Android project configuration.</li>
-<li>Custom <code>icon.xcf</code> based on the historical Eratosthenes
-profile engraving, color-matched with the deep purple
-(<code>#380C59</code>) and soft lavender (<code>#D4C2FC</code>)
-palette.</li>
-<li>Automated icon generation pipeline via <code>icon-generate</code>
-and <code>flutter_launcher_icons</code>.</li>
-<li><code>Makefile</code> targets: <code>make ASSETS</code>,
-<code>make docs</code>, <code>make stage</code> (via
-<code>firebase_stage.pl</code>), and <code>make test</code>.</li>
-<li><code>setup.sh</code> script with host routing (<code>raven</code>
-port 5520, <code>jeeves</code> port 5008) and Chrome workspace
-hotkeys.</li>
-<li>Firebase Hosting configuration (<code>.firebaserc</code> pointing to
-<code>fredgc-sieve</code> and <code>firebase.json</code> with web SPA
-headers).</li>
-</ul></li>
-<li><label><input type="checkbox" checked="" /><strong>Mathematical
-Sieve Engine
-(<code>lib/models/sieve_engine.dart</code>):</strong></label>
-<ul>
-<li>Deterministic prime discovery using trial division against known
+<li><p>Deterministic prime discovery using trial division against known
 primes
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>≤</mo><msqrt><mi>N</mi></msqrt></mrow><annotation encoding="application/x-tex">p \le \sqrt{N}</annotation></semantics></math>.</li>
-<li>Prime power multiplicity decomposition and formatting
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>⟹</mo><msup><mn>2</mn><mn>2</mn></msup><mo>,</mo><mn>12</mn><mo>⟹</mo><msup><mn>2</mn><mn>2</mn></msup><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">4 \implies 2^2, 12 \implies 2^2 \times 3</annotation></semantics></math>).</li>
-<li>Triangle wave proximity calculation.</li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>≤</mo><msqrt><mi>N</mi></msqrt></mrow><annotation encoding="application/x-tex">p
+\le \sqrt{N}</annotation></semantics></math>.</p></li>
+<li><p>Prime power multiplicity decomposition and formatting
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>⟹</mo><msup><mn>2</mn><mn>2</mn></msup><mo>,</mo><mn>12</mn><mo>⟹</mo><msup><mn>2</mn><mn>2</mn></msup><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">4 \implies 2^2, 12
+\implies 2^2 \times 3</annotation></semantics></math>).</p></li>
+<li><p>Zero-drift beat generator using <code>Stopwatch</code> +
+<code>TickerProvider</code> to provide continuous sub-millisecond
+fractional time
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">N(t)</annotation></semantics></math>.</p></li>
+<li><p>Continuous triangle-wave proximity metric calculation.</p></li>
+<li><p>Curated colors and pitch frequencies for primes using
+golden-ratio algorithmic HSL color distribution.</p></li>
 </ul></li>
-<li><label><input type="checkbox" checked="" /><strong>Zero-Drift Beat
-Clock (<code>lib/models/beat_clock.dart</code>):</strong></label>
+<li><p><label><input type="checkbox" checked="" /><strong>Stage 2:
+Polyphonic Acoustic Web Audio Synthesizer &amp; Piano
+Soundfont:</strong></label></p>
 <ul>
-<li>Stopwatch-anchored beat generator preventing accumulated timing
-drift.</li>
-<li>Continuous sub-millisecond fractional time
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">N(t)</annotation></semantics></math>
-for 60/120 FPS animations.</li>
-<li>Play, Pause, Single-Step, Reset, and Tempo slider
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">0.2\text{ Hz}</annotation></semantics></math>
-to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5.0</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">5.0\text{ Hz}</annotation></semantics></math>).</li>
+<li><p>Web Audio API polyphonic engine with multi-octave acoustic grand
+piano samples (<code>C3</code>, <code>G3</code>, <code>C4</code>,
+<code>E4</code>, <code>C5</code>, <code>A5</code>, <code>C6</code> at
+~1.2MB total).</p></li>
+<li><p>Realtime pitch-shifting via <code>playbackRate</code> with
+seamless fallback to resonant overtone oscillators when
+offline.</p></li>
+<li><p>Primes remain silent when first discovered, sounding only as
+factors of subsequent composite numbers.</p></li>
+<li><p>Acoustic balancing boosting primes 2
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>35</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">+35\%</annotation></semantics></math>)
+and 3
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>20</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">+20\%</annotation></semantics></math>)
+for a strong bass root and fifth.</p></li>
+<li><p>Dynamics compressor preventing digital
+distortion/clipping.</p></li>
+<li><p>Master volume slider with percentage tooltip and instant
+mute/unmute toggle.</p></li>
+<li><p>Harmonics toggle (defaults to OFF) to switch between full octave
+harmonics vs. fundamental notes.</p></li>
 </ul></li>
-<li><label><input type="checkbox" checked="" /><strong>Harmonic Palette
-(<code>lib/models/harmonic_palette.dart</code>):</strong></label>
+<li><p><label><input type="checkbox" checked="" /><strong>Stage 3: Solo
+Reflex Challenge Game Mode &amp; Career Records:</strong></label></p>
 <ul>
-<li>Curated colors and acoustic pitch frequencies for foundational
-primes.</li>
-<li>Golden-ratio algorithmic HSL color distribution for higher
-primes.</li>
+<li><p>Silent <strong>“Guess Next (#N+1)”</strong> reflex action button
+and keyboard hotkey (<strong>Spacebar</strong>).</p></li>
+<li><p>Scoring system with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">+1</annotation></semantics></math>
+for correct prime guesses and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math>
+penalty for composite guesses.</p></li>
+<li><p>Persistent high score, best prime streak, accuracy meter, and
+career statistics via <code>SharedPreferences</code>.</p></li>
+<li><p>Visual guess history border indicators on the number grid (green
+= correct, red = incorrect, amber = pending).</p></li>
+<li><p>Dedicated <strong>Player Stats &amp; Records modal</strong> with
+career metrics and reset option.</p></li>
+<li><p>Dedicated <strong>How to Play dialog</strong> loading markdown
+rules from <code>doc/rules.md</code>.</p></li>
+<li><p>Keyboard navigation: <strong>P</strong> (play/pause),
+<strong>Spacebar</strong> (guess next), <strong>Left/Right
+arrows</strong> (tempo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>±</mi><mn>0.2</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">\pm 0.2\text{ Hz}</annotation></semantics></math>),
+<strong>Up/Down arrows</strong> (smooth scroll).</p></li>
 </ul></li>
-<li><label><input type="checkbox" checked="" /><strong>Interactive UI
-(<code>lib/main.dart</code> &amp;
-<code>lib/widgets/</code>):</strong></label>
+<li><p><label><input type="checkbox" checked="" /><strong>Stage 4:
+Realtime Multiplayer Challenge:</strong></label></p>
 <ul>
-<li>Center hero display flashing on integer beats with prime badges and
-factor chips.</li>
-<li>Scrolling horizontal number stream highlighting past, active, and
-upcoming numbers.</li>
-<li>Continuous triangle-wave proximity dashboard.</li>
-<li>Interactive Factor Inspector bottom sheet for examining any
-number.</li>
-<li>In-app About/Help modal with direct link to the <a
-href="https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Wikipedia
-Sieve of Eratosthenes article</a>.</li>
+<li><p>Firebase Realtime Database backing lightweight synchronized rooms
+(<code>fredgc-sieve-default-rtdb</code>).</p></li>
+<li><p><strong>Strict Quota Clamping:</strong> Max 10 rooms
+project-wide, max 10 players per room
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mo>×</mo><mn>10</mn><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">10 \times 10 = 100</annotation></semantics></math>
+connections max, strictly within Spark free tier limits).</p></li>
+<li><p><strong>Inactivity Auto-Pruning:</strong> Automatic cleanup of
+rooms inactive for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">\ge
+10</annotation></semantics></math> minutes.</p></li>
+<li><p><strong>QR Code &amp; Shareable Link:</strong> Dynamic QR codes
+via <code>qr_flutter</code> and one-click URL sharing
+(<code>/?room=CODE</code>) with automatic query parameter detection on
+load.</p></li>
+<li><p><strong>Dropout &amp; Reconnection Recovery:</strong> Persistent
+session tokens in local storage with a 3-minute grace period allowing
+disconnected players to rejoin without score or streak loss.</p></li>
+<li><p><strong>Synchronized Beat Clock &amp; Catch-Up:</strong> Clock
+synchronization using <code>/.info/serverTimeOffset</code> and timestamp
+alignment to eliminate timer drift; late-joining or reconnecting guests
+automatically catch up to the host’s exact beat.</p></li>
+<li><p><strong>Host Authority &amp; Room Playback Sync:</strong> Only
+the room host can pause, resume, reset, or change tempo, synchronizing
+changes in real-time across all clients. Guests have transport buttons
+replaced by a dedicated “Leave Room” button and a locked tempo display,
+preventing accidental desync.</p></li>
+<li><p><strong>Live Scoreboard HUD:</strong> In-game multiplayer
+leaderboard showing all players, scores, streaks, prime predictions, and
+a quick-leave action.</p></li>
 </ul></li>
-<li><label><input type="checkbox" checked="" /><strong>Automated
-Testing:</strong> 14 unit and widget tests covering the mathematical
-core, triangle wave continuity, beat clock timing, and UI smoke tests
-(<code>flutter test</code> passing with 0 warnings).</label></li>
 </ul>
-<h3 id="next-up-stage-2-beyond">Next Up (Stage 2 &amp; Beyond)</h3>
+<h3 id="upcoming-stages">Upcoming Stages</h3>
 <ul class="task-list">
-<li><label><input type="checkbox" /><strong>Stage 2:</strong> Polyphonic
-Piano Audio Synthesizer / Soundfont playback engine.</label></li>
-<li><label><input type="checkbox" /><strong>Stage 3:</strong> Solo
-Reflex Challenge Game Mode (reaction buzzer, scoring, streak
-multipliers, local high score).</label></li>
-<li><label><input type="checkbox" /><strong>Stage 4:</strong>
-Multiplayer room synchronization (Firebase Realtime Database free
-tier).</label></li>
 <li><label><input type="checkbox" /><strong>Stage 5:</strong> Google
 Cast TV Web Receiver mode.</label></li>
 </ul>
@@ -231,57 +282,94 @@ Cast TV Web Receiver mode.</label></li>
 <pre class="text"><code>sieve/
 ├── assets/
 │   ├── about.html            # Compiled documentation from doc/about.md
-│   ├── css/doc_style.css     # Clean academic CSS styling
+│   ├── css/doc_style.css     # Academic CSS styling
 │   ├── dev/                  # Developer documentation (plan.html, README.html, GEMINI.html)
 │   └── icons/                # Generated 512x512 icons (icon.png, background.png, foreground.png)
+├── database.rules.json       # Firebase Realtime Database security rules
 ├── doc/
-│   └── about.md              # Application guide &amp; mathematical background
+│   ├── about.md              # Application guide &amp; mathematical background
+│   ├── privacy.md            # Privacy policy (zero tracking, ephemeral data)
+│   └── rules.md              # How-to-play prime reflex rules
 ├── lib/
-│   ├── main.dart             # Application root, theme, and main dashboard
+│   ├── firebase_options.dart # Firebase configuration for Web and Android
+│   ├── main.dart             # Application root, theme, keyboard shortcuts, and HUD
 │   ├── models/
-│   │   ├── beat_clock.dart       # Precision beat timer and fractional interpolator
-│   │   ├── harmonic_palette.dart # Musical notes, frequencies, and prime colors
-│   │   └── sieve_engine.dart     # Sieve algorithm, prime cache, and proximity wave math
+│   │   ├── audio_engine.dart      # Audio interface facade with mute &amp; harmonics toggles
+│   │   ├── audio_engine_stub.dart # No-op audio implementation for native/tests
+│   │   ├── audio_engine_web.dart  # Web Audio API polyphonic piano synthesizer
+│   │   ├── beat_clock.dart        # Precision beat timer and fractional interpolator
+│   │   ├── game_stats.dart        # Persistent local high scores, streaks, and accuracy
+│   │   ├── harmonic_palette.dart  # Musical notes, frequencies, and prime colors
+│   │   ├── multiplayer_engine.dart # RTDB room lifecycle, 10-room quota, session persistence
+│   │   └── sieve_engine.dart      # Sieve algorithm, prime cache, and proximity wave math
 │   └── widgets/
-│       ├── about_dialog.dart     # Help modal &amp; Wikipedia integration
+│       ├── about_dialog.dart     # Help modal loading doc/about.md and doc/privacy.md
 │       ├── factor_inspector.dart # Interactive prime factor inspection modal
-│       ├── number_grid.dart      # Smoothly scrolling number stream
-│       └── proximity_dashboard.dart # Continuous triangle wave progress gauges
+│       ├── game_help_dialog.dart # How-to-play modal loading doc/rules.md
+│       ├── multiplayer_dialog.dart # Room host/join dialog with QR code &amp; share link
+│       ├── multiplayer_scoreboard.dart # In-game live multiplayer HUD
+│       ├── number_grid.dart      # Smoothly scrolling number stream with cursor
+│       ├── proximity_dashboard.dart # Continuous triangle wave progress gauges
+│       └── stats_dialog.dart     # Player stats and records dialog with accuracy meter
 ├── test/
-│   ├── beat_clock_test.dart   # Timing, stepping, and speed unit tests
-│   ├── sieve_engine_test.dart # Mathematical sieve &amp; continuity tests
-│   └── widget_test.dart       # UI smoke tests
+│   ├── beat_clock_test.dart        # Timing, stepping, and speed unit tests
+│   ├── game_stats_test.dart        # High score, streak, and career stats unit tests
+│   ├── multiplayer_engine_test.dart # RTDB quota clamps and serialization unit tests
+│   ├── sieve_engine_test.dart      # Mathematical sieve &amp; continuity tests
+│   └── widget_test.dart            # UI smoke and modal interaction tests
 ├── icon.xcf                  # Master GIMP icon with Background &amp; Foreground layers
 ├── Makefile                  # Build, doc compilation, and staging automation
 ├── roll_build_number.sh      # Automated version &amp; build bumper
 ├── setup.sh                  # Development environment launcher &amp; hotkey binder
 ├── .firebaserc               # Firebase project: fredgc-sieve
-└── firebase.json             # Firebase Hosting SPA routing &amp; cache headers</code></pre>
+└── firebase.json             # Firebase Hosting SPA routing &amp; database rules mapping</code></pre>
 <hr />
 <h2 id="development-running">4. Development &amp; Running</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li><p><a href="https://docs.flutter.dev/get-started/install">Flutter
+SDK</a> (3.24+ recommended)</p></li>
+<li><p><code>make</code> and <a href="https://pandoc.org/">Pandoc</a>
+(for compiling documentation)</p></li>
+</ul>
+<h3 id="forking-and-cloning">Forking and Cloning</h3>
+<ol type="1">
+<li><p>Fork the repository on GitHub to your account.</p></li>
+<li><p>Clone your fork locally:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/<span class="op">&lt;</span>your-username<span class="op">&gt;</span>/sieve.git</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> sieve</span></code></pre></div></li>
+<li><p>Install Flutter dependencies:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> pub get</span></code></pre></div></li>
+<li><p>Compile documentation assets:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> docs</span></code></pre></div></li>
+</ol>
 <h3 id="starting-development-environment">Starting Development
 Environment</h3>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./setup.sh</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./setup.sh</span></span></code></pre></div>
 <h3 id="running-locally">Running Locally</h3>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Debug mode on local port</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./run-local-server.sh</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or release build local server</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">./run-local-release.sh</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Debug mode on local port</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./run-local-server.sh</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or release build local server</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">./run-local-release.sh</span></span></code></pre></div>
 <h3 id="building-assets-documentation">Building Assets &amp;
 Documentation</h3>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> ASSETS</span></code></pre></div>
-<h3 id="running-tests">Running Tests</h3>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> test</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> analyze</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> ASSETS</span></code></pre></div>
+<h3 id="running-tests-static-analysis">Running Tests &amp; Static
+Analysis</h3>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> test</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> analyze</span></code></pre></div>
 <h3 id="staging-to-firebase-hosting">Staging to Firebase Hosting</h3>
-<div class="sourceCode" id="cb6"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> stage</span></code></pre></div>
-<p>Deploy the app to the staging channel on Firebase Hosting for project
-<code>fredgc-sieve</code>.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> stage</span></code></pre></div>
+<p>Deploys the web application to the staging channel on Firebase
+Hosting for project <code>fredgc-sieve</code>.</p>
 </body>
 </html>

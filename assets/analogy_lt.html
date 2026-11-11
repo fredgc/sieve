@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Garso ir vaizdo analogija (Eratosteno rėtis)</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="css/doc_style.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Garso ir vaizdo analogija (Eratosteno rėtis)</h1>
+</header>
+<p>Programėlė<strong>Eratosteno rėtis</strong> paverčia
+skaidymąpirminiais daugikliais ir skaičiųteorijąpolifonine muzikine
+patirtimi.</p>
+<hr />
+<h2 id="pirminiai-skaičiai-kaip-atominiai-tonai">1. Pirminiai skaičiai
+kaip atominiai tonai</h2>
+<p>Skaičiųteorijoje <strong>pagrindinėaritmetikos teorema</strong>
+teigia, kad kiekvienas sveikasis skaičius, didesnis už1, arba pats yra
+pirminis, arba gali būti vieninteliu būdu išreikštas
+pirminiųskaičiųsandauga.</p>
+<p>Šioje programoje:</p>
+<ul>
+<li><p>Kiekvienam atrastam pirminiam skaičiui priskiriamas unikalus
+muzikinis tonas išnatūraliosios harmoninės obertonųeilės:</p>
+<ul>
+<li><p><strong>2</strong> = C3 (130,81 Hz—žemasis boso pamatas)</p></li>
+<li><p><strong>3</strong> = G3 (196,00 Hz—grynoji kvinta)</p></li>
+<li><p><strong>5</strong> = E4 (329,63 Hz—didžioji tercija)</p></li>
+<li><p><strong>7</strong> = B♭4 (466,16 Hz—natūralioji septima)</p></li>
+<li><p><strong>11</strong> = F♯5 (739,99 Hz—padidintoji kvarta /
+tritonis)</p></li>
+<li><p><strong>13</strong> = A5 (880,00 Hz—didžioji seksta)</p></li>
+</ul></li>
+<li><p><strong>Tyla atradus:</strong> Pirmąkartąsekos eigoje sutiktas
+pirminis skaičius lieka tylus. Jo tonas nuskamba tik tada, kai jis tampa
+vėlesniųsudėtiniųskaičių daugikliu.</p></li>
+</ul>
+<hr />
+<h2 id="sudėtiniai-skaičiai-kaip-harmoniniai-akordai">2. Sudėtiniai
+skaičiai kaip harmoniniai akordai</h2>
+<p>Kai rėtis pasiekia sudėtinįskaičių, vienu metu suskamba visi jo
+pirminiai daugikliai kaip muzikinis akordas:</p>
+<ul>
+<li><p><strong>2</strong> laiko
+bosą(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mn>3</mn></msub><annotation encoding="application/x-tex">C_3</annotation></semantics></math>).</p></li>
+<li><p><strong>3</strong> prideda
+kvintą(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>G</mi><mn>3</mn></msub><annotation encoding="application/x-tex">G_3</annotation></semantics></math>).</p></li>
+<li><p><strong>6 = 2×3</strong> suskamba kaip atviras kvintos galios
+akordas
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>3</mn></msub><mo>+</mo><msub><mi>G</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">C_3 + G_3</annotation></semantics></math>).</p></li>
+<li><p><strong>5</strong>įnešašiltądidžiąjąterciją(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>E</mi><mn>4</mn></msub><annotation encoding="application/x-tex">E_4</annotation></semantics></math>).</p></li>
+<li><p><strong>30 = 2×3×5</strong> suskamba kaip pilnas C-dur trigarsis
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>3</mn></msub><mo>+</mo><msub><mi>E</mi><mn>4</mn></msub><mo>+</mo><msub><mi>G</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">C_3 + E_4 + G_3</annotation></semantics></math>).</p></li>
+</ul>
+<hr />
+<h2 id="pirminių-laipsniai-kaip-oktavų-obertonai">3. Pirminių laipsniai
+kaip oktavų obertonai</h2>
+<p>Kai skaičius turi kelis to paties pirminio skaičiaus daugiklius:</p>
+<ul>
+<li><p><strong>4 = 2²</strong> prideda aukštesnės oktavos
+obertoną(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mn>4</mn></msub><annotation encoding="application/x-tex">C_4</annotation></semantics></math>).</p></li>
+<li><p><strong>8 = 2³</strong> prideda dar
+vienąaukštesnęoktavą(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mn>5</mn></msub><annotation encoding="application/x-tex">C_5</annotation></semantics></math>).</p></li>
+<li><p><strong>12 = 2²×3</strong> sujungia bosinįtoną, aukštesnęoktavąir
+kvintą(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>3</mn></msub><mo>+</mo><msub><mi>C</mi><mn>4</mn></msub><mo>+</mo><msub><mi>G</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">C_3 + C_4 +
+G_3</annotation></semantics></math>).</p></li>
+</ul>
+<p>Viršutinėje juostoje esantisžymimasis langelis
+<strong>Harmonikos</strong> leidžia perjungti daugiasluoksnius
+oktavųobertonus arba grynus pagrindinius tonus.</p>
+<hr />
+<h2 id="tolydžios-artumo-bangos">4. Tolydžios artumo bangos</h2>
+<p>Apatinėje skydelio dalyje stebima, kaip arti tolydusis rodyklės
+taškas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>
+yra prie kiekvieno pirminio skaičiaus
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+kartotinio:</p>
+<pre><code>f(t) = | 2 × ((greitis × t) mod p) / p - 1.0 |</code></pre>
+<ul>
+<li><p><strong>Viršūnės ties 1,0:</strong> Momentas, kai pasiekiamas
+kartotinis.</p></li>
+<li><p><strong>Slėniai ties 0,0:</strong> Tiksliai pusiaukelėje tarp
+dviejųkartotinių.</p></li>
+<li><p><strong>Pirminiųskaičiųnuspėjimas:</strong> Jei visos artumo
+bangos yra gerokaižemiau 100 %, būsimas skaičius
+neturižinomųdaliklių—jis privalo būti pirminis!</p></li>
+</ul>
+</body>
+</html>
