@@ -216,20 +216,22 @@ class SieveEngine {
   /// Pure mathematical factorization helper for factor inspector or testing.
   /// Does NOT modify the active sieve state or discovered primes.
   static SieveNumber factorizeStatic(int n) {
-    if (n == 0)
+    if (n == 0) {
       return const SieveNumber(
         number: 0,
         isPrime: false,
         factors: [],
         specialStatus: 'Ready...',
       );
-    if (n == 1)
+    }
+    if (n == 1) {
       return const SieveNumber(
         number: 1,
         isPrime: false,
         factors: [],
         specialStatus: 'Go!',
       );
+    }
 
     final factors = <PrimeFactor>[];
     int remaining = n;

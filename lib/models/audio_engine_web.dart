@@ -122,8 +122,9 @@ class AudioEngineImpl {
     num startTime, {
     bool isPrime = false,
   }) {
-    if (_ctx == null || _compressor == null || _sampleBuffers.isEmpty)
+    if (_ctx == null || _compressor == null || _sampleBuffers.isEmpty) {
       return false;
+    }
 
     final anchor = _findClosestAnchor(targetFreq);
     final buffer = _sampleBuffers[anchor.noteName];
