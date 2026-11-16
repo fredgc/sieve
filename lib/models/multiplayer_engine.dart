@@ -591,8 +591,9 @@ class MultiplayerEngine {
   Future<void> submitGuess({required bool guess}) async {
     if (_currentRoomCode == null ||
         _currentPlayerId == null ||
-        _database == null)
+        _database == null) {
       return;
+    }
     await _database!
         .ref('rooms/$_currentRoomCode/players/$_currentPlayerId')
         .update({'guessForNext': guess, 'lastSeen': synchronizedServerTimeMs});
@@ -602,8 +603,9 @@ class MultiplayerEngine {
   Future<void> updateScore({required int score, required int streak}) async {
     if (_currentRoomCode == null ||
         _currentPlayerId == null ||
-        _database == null)
+        _database == null) {
       return;
+    }
     await _database!
         .ref('rooms/$_currentRoomCode/players/$_currentPlayerId')
         .update({
