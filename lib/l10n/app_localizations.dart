@@ -170,6 +170,12 @@ abstract class AppLocalizations {
   /// **'Sieve of Eratosthenes'**
   String get appTitle;
 
+  /// Short application title used when there is not enough room for the full title
+  ///
+  /// In en, this message translates to:
+  /// **'Sieve'**
+  String get appTitleShort;
+
   /// Metric card title for best streak
   ///
   /// In en, this message translates to:

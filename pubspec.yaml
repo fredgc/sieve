@@ -1,7 +1,7 @@
 name: sieve
 description: "Interactive Sieve of Eratosthenes Audio-Visual Rhythm & Reflex Game"
 publish_to: 'none'
-version: 3.1.2+0
+version: 3.2.0+6
 
 environment:
   sdk: ">=3.13.5 <4.0.0"

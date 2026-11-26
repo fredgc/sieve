@@ -46,6 +46,10 @@
   "@appTitle": {
     "description": "Main application title"
   },
+  "appTitleShort": "Sieve",
+  "@appTitleShort": {
+    "description": "Short application title used when there is not enough room for the full title"
+  },
   "bestStreak": "BEST STREAK",
   "@bestStreak": {
     "description": "Metric card title for best streak"

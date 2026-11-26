@@ -188,8 +188,12 @@ class SieveAboutDialog extends StatelessWidget {
             backgroundColor: isDark
                 ? const Color(0xFF240046)
                 : const Color(0xFFF3EDFC),
-            foregroundColor: const Color(0xFF0284C7),
-            side: const BorderSide(color: Color(0xFF0284C7)),
+            foregroundColor: isDark
+                ? const Color(0xFF4CC9F0)
+                : const Color(0xFF0284C7),
+            side: BorderSide(
+              color: isDark ? const Color(0xFF4CC9F0) : const Color(0xFF0284C7),
+            ),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           ),
         ),
@@ -218,8 +222,12 @@ class SieveAboutDialog extends StatelessWidget {
             backgroundColor: isDark
                 ? const Color(0xFF240046)
                 : const Color(0xFFF3EDFC),
-            foregroundColor: const Color(0xFF0284C7),
-            side: const BorderSide(color: Color(0xFF0284C7)),
+            foregroundColor: isDark
+                ? const Color(0xFF4CC9F0)
+                : const Color(0xFF0284C7),
+            side: BorderSide(
+              color: isDark ? const Color(0xFF4CC9F0) : const Color(0xFF0284C7),
+            ),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           ),
         ),

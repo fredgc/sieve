@@ -511,4 +511,183 @@ void main() {
       expect(ThemeController.themeMode.value, ThemeMode.dark);
     },
   );
+
+  testWidgets(
+    'Narrow display splits header into two rows and truncates title to Sieve',
+    (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(360, 640);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(const SieveApp());
+      await tester.pumpAndSettle();
+
+      // Header is split into two rows in narrow mode
+      expect(find.byKey(const Key('narrow_header_bar')), findsOneWidget);
+
+      // Title is truncated to short form when full title does not fit
+      expect(find.text('Sieve'), findsOneWidget);
+      expect(find.text('Sieve of Eratosthenes'), findsNothing);
+
+      // Audio and multiplayer controls remain accessible in the second row
+      expect(
+        find.descendant(
+          of: find.byKey(const Key('narrow_header_bar')),
+          matching: find.text('Harmonics'),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(
+          of: find.byKey(const Key('narrow_header_bar')),
+          matching: find.byTooltip('Volume: 80%'),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(
+          of: find.byKey(const Key('narrow_header_bar')),
+          matching: find.byTooltip('Multiplayer Match'),
+        ),
+        findsOneWidget,
+      );
+      // Theme toggle and language switcher move to the second row in narrow mode
+      expect(
+        find.descendant(
+          of: find.byKey(const Key('narrow_header_bar')),
+          matching: find.byTooltip('Switch Language'),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(
+          of: find.byKey(const Key('narrow_header_bar')),
+          matching: find.byWidgetPredicate(
+            (w) =>
+                w is IconButton &&
+                (w.tooltip == 'Switch to Light Mode' ||
+                    w.tooltip == 'Switch to Dark Mode'),
+          ),
+        ),
+        findsOneWidget,
+      );
+      // About & Help stays in the top AppBar
+      expect(
+        find.descendant(
+          of: find.byType(AppBar),
+          matching: find.byTooltip('About & Help'),
+        ),
+        findsOneWidget,
+      );
+    },
+  );
+
+  testWidgets(
+    'Narrow display shrinks title font size to fit full title before truncating',
+    (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(450, 700);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(const SieveApp());
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(const Key('narrow_header_bar')), findsOneWidget);
+      final titleFinder = find.text('Sieve of Eratosthenes');
+      expect(titleFinder, findsOneWidget);
+      expect(find.text('Sieve'), findsNothing);
+
+      final titleWidget = tester.widget<Text>(titleFinder);
+      expect(titleWidget.style?.fontSize, lessThan(18.0));
+    },
+  );
+
+  testWidgets(
+    'Wide display keeps single-row header and shows full title when it fits',
+    (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1200, 700);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(const SieveApp());
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(const Key('narrow_header_bar')), findsNothing);
+      expect(find.text('Sieve of Eratosthenes'), findsOneWidget);
+      expect(find.text('Sieve'), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'Medium narrow display splits header into two rows while keeping full title',
+    (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(650, 700);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(const SieveApp());
+      await tester.pumpAndSettle();
+
+      // Header splits into two rows so the full title still fits on row 1
+      expect(find.byKey(const Key('narrow_header_bar')), findsOneWidget);
+      expect(find.text('Sieve of Eratosthenes'), findsOneWidget);
+      expect(find.text('Sieve'), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'Multiplayer lobby dialog renders QR and invite link on non-HTTP Uri.base',
+    (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(360, 640);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      MultiplayerEngine.instance.setTestState(
+        roomCode: 'ABCD',
+        playerId: 'host_1',
+        isHost: true,
+        roomState: const RoomState(
+          code: 'ABCD',
+          status: 'waiting',
+          hostId: 'host_1',
+          tempoHz: 1.0,
+          startServerTime: 0,
+          createdAt: 0,
+          lastActivity: 0,
+          players: {
+            'host_1': RoomPlayer(
+              id: 'host_1',
+              name: 'Host',
+              sessionToken: 'tok',
+              isHost: true,
+            ),
+          },
+        ),
+      );
+      addTearDown(() {
+        MultiplayerEngine.instance.setTestState(
+          roomCode: null,
+          playerId: null,
+          isHost: false,
+          roomState: null,
+        );
+      });
+
+      await tester.pumpWidget(const SieveApp());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byTooltip('Multiplayer Match'));
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(find.text('Lobby: Room ABCD'), findsOneWidget);
+      expect(find.text('Copy Link'), findsOneWidget);
+      expect(find.text('Start Match'), findsOneWidget);
+    },
+  );
 }

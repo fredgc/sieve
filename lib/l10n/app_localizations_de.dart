@@ -44,6 +44,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get appTitle => 'Sieb des Eratosthenes';
 
   @override
+  String get appTitleShort => 'Sieb';
+
+  @override
   String get bestStreak => 'BESTE SERIE';
 
   @override

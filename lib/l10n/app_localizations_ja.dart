@@ -44,6 +44,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get appTitle => 'エラトステネスの篩';
 
   @override
+  String get appTitleShort => '篩';
+
+  @override
   String get bestStreak => 'ベスト連続';
 
   @override
