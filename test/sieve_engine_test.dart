@@ -151,4 +151,30 @@ void main() {
       expect(f2_3, closeTo(f2_1 * 4.0, 0.01));
     });
   });
+
+  group('SieveEngine Stress Tests', () {
+    test(
+      'Steps through 10,000 numbers with exact prime count and factor products',
+      () {
+        final engine = SieveEngine();
+        for (int n = 1; n <= 10000; n++) {
+          final result = engine.step();
+          expect(result.number, equals(n));
+          if (n >= 2 && !result.isPrime) {
+            int product = 1;
+            for (final factor in result.factors) {
+              for (int k = 0; k < factor.power; k++) {
+                product *= factor.prime;
+              }
+            }
+            expect(product, equals(n));
+          }
+        }
+        // pi(10000) = 1229 primes
+        expect(engine.discoveredPrimes.length, equals(1229));
+        expect(engine.discoveredPrimes.last, equals(9973));
+      },
+      tags: 'stress',
+    );
+  });
 }

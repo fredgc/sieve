@@ -44,6 +44,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appTitle => 'Criba de Eratóstenes';
 
   @override
+  String get appTitleShort => 'Criba';
+
+  @override
   String get bestStreak => 'MEJOR RACHA';
 
   @override

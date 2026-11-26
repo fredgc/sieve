@@ -44,6 +44,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get appTitle => '埃拉托斯特尼筛法';
 
   @override
+  String get appTitleShort => '筛法';
+
+  @override
   String get bestStreak => '最佳连续';
 
   @override

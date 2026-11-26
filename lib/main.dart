@@ -44,6 +44,32 @@ void main() async {
   runApp(const SieveApp());
 }
 
+/// Seed color driving light and dark Material 3 ColorSchemes.
+const Color kSieveSeedColor = Color(0xFF7B2CBF);
+
+/// Builds the standardized Material 3 theme for [brightness].
+ThemeData buildSieveTheme(Brightness brightness) {
+  final colorScheme = ColorScheme.fromSeed(
+    seedColor: kSieveSeedColor,
+    brightness: brightness,
+  );
+  final baseTextTheme = brightness == Brightness.dark
+      ? ThemeData.dark().textTheme
+      : ThemeData.light().textTheme;
+  return ThemeData(
+    brightness: brightness,
+    colorScheme: colorScheme,
+    scaffoldBackgroundColor: colorScheme.surface,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: colorScheme.primaryContainer,
+        foregroundColor: colorScheme.onPrimaryContainer,
+      ),
+    ),
+    textTheme: GoogleFonts.interTextTheme(baseTextTheme),
+  );
+}
+
 class SieveApp extends StatelessWidget {
   const SieveApp({super.key});
 
@@ -72,32 +98,8 @@ class SieveApp extends StatelessWidget {
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
               themeMode: themeMode,
-              theme: ThemeData(
-                brightness: Brightness.light,
-                scaffoldBackgroundColor: const Color(0xFFF7F5FA),
-                primaryColor: const Color(0xFF7B2CBF),
-                colorScheme: const ColorScheme.light(
-                  primary: Color(0xFF7B2CBF),
-                  secondary: Color(0xFFD97706),
-                  surface: Colors.white,
-                ),
-                textTheme: GoogleFonts.interTextTheme(
-                  ThemeData.light().textTheme,
-                ),
-              ),
-              darkTheme: ThemeData(
-                brightness: Brightness.dark,
-                scaffoldBackgroundColor: const Color(0xFF0F071D),
-                primaryColor: const Color(0xFF9D4EDD),
-                colorScheme: const ColorScheme.dark(
-                  primary: Color(0xFFD4C2FC),
-                  secondary: Color(0xFFFFD166),
-                  surface: Color(0xFF1E152A),
-                ),
-                textTheme: GoogleFonts.interTextTheme(
-                  ThemeData.dark().textTheme,
-                ),
-              ),
+              theme: buildSieveTheme(Brightness.light),
+              darkTheme: buildSieveTheme(Brightness.dark),
               home: const SieveHomeScreen(),
             );
           },
@@ -539,10 +541,321 @@ class _SieveHomeScreenState extends State<SieveHomeScreen>
     super.dispose();
   }
 
+  TextStyle _appTitleStyle(
+    BuildContext context,
+    bool isDark, {
+    double fontSize = 18,
+  }) {
+    return DefaultTextStyle.of(context).style.merge(
+      TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: fontSize,
+        letterSpacing: 0.5,
+        color: isDark ? const Color(0xFFE0D0FF) : const Color(0xFF2E1065),
+      ),
+    );
+  }
+
+  TextStyle _harmonicsLabelStyle(BuildContext context, bool isDark) {
+    return DefaultTextStyle.of(context).style.merge(
+      TextStyle(
+        color: isDark ? const Color(0xFFD4C2FC) : const Color(0xFF5B21B6),
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+
+  double _measureSingleLineWidth(
+    BuildContext context,
+    String text,
+    TextStyle style,
+  ) {
+    final tp = TextPainter(
+      text: TextSpan(text: text, style: style),
+      maxLines: 1,
+      textDirection: Directionality.of(context),
+      textScaler: MediaQuery.textScalerOf(context),
+    )..layout();
+    return tp.width;
+  }
+
+  bool _isNarrow(BuildContext context, AppLocalizations l10n, bool isDark) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final titleWidth = _measureSingleLineWidth(
+      context,
+      l10n.appTitle,
+      _appTitleStyle(context, isDark),
+    );
+    final harmonicsLabelWidth = _measureSingleLineWidth(
+      context,
+      l10n.harmonicsLabel,
+      _harmonicsLabelStyle(context, isDark),
+    );
+    final leaveRoomWidth = MultiplayerEngine.instance.isInRoom ? 48.0 : 0.0;
+    // Title spacing + icon + gap + tool/utility action icons & slider.
+    final requiredSingleRowWidth =
+        72.0 + titleWidth + 378.0 + harmonicsLabelWidth + leaveRoomWidth;
+    return screenWidth < requiredSingleRowWidth;
+  }
+
+  Widget _buildAppTitle(
+    BuildContext context,
+    AppLocalizations l10n,
+    bool isDark,
+  ) {
+    const candidateFontSizes = [18.0, 16.0, 15.0, 14.0];
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Image.asset('assets/icons/icon.png', width: 30, height: 30),
+        const SizedBox(width: 10),
+        Expanded(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final textDirection = Directionality.of(context);
+              final textScaler = MediaQuery.textScalerOf(context);
+              for (final fontSize in candidateFontSizes) {
+                final style = _appTitleStyle(
+                  context,
+                  isDark,
+                  fontSize: fontSize,
+                );
+                final tp = TextPainter(
+                  text: TextSpan(text: l10n.appTitle, style: style),
+                  maxLines: 1,
+                  textDirection: textDirection,
+                  textScaler: textScaler,
+                )..layout(maxWidth: constraints.maxWidth);
+                if (!tp.didExceedMaxLines) {
+                  return Text(
+                    l10n.appTitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: style,
+                  );
+                }
+              }
+              return Text(
+                l10n.appTitleShort,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: _appTitleStyle(context, isDark),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<Widget> _buildHeaderToolActions(
+    BuildContext context,
+    AppLocalizations l10n,
+    bool isDark,
+  ) {
+    return [
+      Tooltip(
+        message: AudioEngine.instance.playHarmonics
+            ? l10n.harmonicsOffTooltip
+            : l10n.harmonicsOnTooltip,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: () {
+            AudioEngine.instance.initOrResume();
+            setState(() {
+              AudioEngine.instance.toggleHarmonics();
+            });
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Checkbox(
+                  semanticLabel: l10n.harmonicsLabel,
+                  value: AudioEngine.instance.playHarmonics,
+                  activeColor: const Color(0xFF9D4EDD),
+                  checkColor: Colors.white,
+                  side: BorderSide(
+                    color: isDark
+                        ? const Color(0xFFD4C2FC)
+                        : const Color(0xFF7B2CBF),
+                    width: 1.5,
+                  ),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: VisualDensity.compact,
+                  onChanged: (val) {
+                    AudioEngine.instance.initOrResume();
+                    setState(() {
+                      AudioEngine.instance.playHarmonics = val ?? true;
+                    });
+                  },
+                ),
+                const SizedBox(width: 2),
+                Text(
+                  l10n.harmonicsLabel,
+                  style: TextStyle(
+                    color: isDark
+                        ? const Color(0xFFD4C2FC)
+                        : const Color(0xFF5B21B6),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      IconButton(
+        icon: Icon(
+          AudioEngine.instance.isMuted || AudioEngine.instance.volume == 0
+              ? Icons.volume_off
+              : (AudioEngine.instance.volume < 0.5
+                    ? Icons.volume_down
+                    : Icons.volume_up),
+          color: isDark ? const Color(0xFFD4C2FC) : const Color(0xFF5B21B6),
+        ),
+        tooltip: AudioEngine.instance.isMuted
+            ? l10n.unmuteAudioTooltip
+            : l10n.muteAudioTooltip,
+        onPressed: () {
+          AudioEngine.instance.initOrResume();
+          setState(() {
+            AudioEngine.instance.toggleMute();
+          });
+        },
+      ),
+      // Master Volume Slider
+      Tooltip(
+        message: l10n.volumeTooltip(
+          (AudioEngine.instance.isMuted
+                  ? 0
+                  : (AudioEngine.instance.volume * 100))
+              .round(),
+        ),
+        child: SizedBox(
+          width: 74,
+          child: SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              trackHeight: 3.5,
+              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+              overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
+              activeTrackColor: isDark
+                  ? const Color(0xFF9D4EDD)
+                  : const Color(0xFF7B2CBF),
+              inactiveTrackColor: isDark
+                  ? const Color(0xFF380C59)
+                  : const Color(0xFFD1C4E9),
+              thumbColor: isDark
+                  ? const Color(0xFFD4C2FC)
+                  : const Color(0xFF5B21B6),
+            ),
+            child: Slider(
+              value: AudioEngine.instance.isMuted
+                  ? 0.0
+                  : AudioEngine.instance.volume,
+              min: 0.0,
+              max: 1.0,
+              onChanged: (val) {
+                AudioEngine.instance.initOrResume();
+                setState(() {
+                  AudioEngine.instance.setVolume(val);
+                });
+              },
+            ),
+          ),
+        ),
+      ),
+      IconButton(
+        icon: Icon(
+          Icons.groups_rounded,
+          color: isDark ? const Color(0xFF00B4D8) : const Color(0xFF0284C7),
+        ),
+        tooltip: l10n.multiplayerMatchTooltip,
+        onPressed: () => showMultiplayerDialog(
+          context,
+          onStartGame: () {
+            AudioEngine.instance.initOrResume();
+            setState(() {
+              _clock.start();
+            });
+          },
+        ),
+      ),
+      if (MultiplayerEngine.instance.isInRoom)
+        IconButton(
+          icon: const Icon(Icons.logout_rounded, color: Color(0xFFEF476F)),
+          tooltip: MultiplayerEngine.instance.isHost
+              ? l10n.quitDisbandTooltip
+              : l10n.quitLeaveTooltip,
+          onPressed: _leaveMultiplayerRoom,
+        ),
+    ];
+  }
+
+  Widget _buildThemeAction(AppLocalizations l10n, bool isDark) {
+    return IconButton(
+      icon: Icon(
+        isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+        color: isDark ? const Color(0xFFD4C2FC) : const Color(0xFF5B21B6),
+      ),
+      tooltip: isDark ? l10n.themeLightTooltip : l10n.themeDarkTooltip,
+      onPressed: () => ThemeController.toggleTheme(),
+    );
+  }
+
+  Widget _buildHelpAction(
+    BuildContext context,
+    AppLocalizations l10n,
+    bool isDark,
+  ) {
+    return IconButton(
+      icon: Icon(
+        Icons.help_outline,
+        color: isDark ? const Color(0xFFD4C2FC) : const Color(0xFF5B21B6),
+      ),
+      tooltip: l10n.aboutAndHelpTooltip,
+      onPressed: () => showSieveAboutDialog(context),
+    );
+  }
+
+  Widget _buildLanguageAction(AppLocalizations l10n, bool isDark) {
+    return PopupMenuButton<Locale>(
+      icon: Icon(
+        Icons.language_rounded,
+        color: isDark ? const Color(0xFFD4C2FC) : const Color(0xFF5B21B6),
+      ),
+      tooltip: l10n.switchLanguageTooltip,
+      initialValue:
+          LocaleController.currentLocale.value ?? LocaleController.autoLocale,
+      onSelected: (loc) => LocaleController.setLocale(loc),
+      itemBuilder: (context) => [
+        CheckedPopupMenuItem<Locale>(
+          value: LocaleController.autoLocale,
+          checked: LocaleController.currentLocale.value == null,
+          child: Text(l10n.languageAuto),
+        ),
+        for (final locale in LocaleController.supportedLocales)
+          CheckedPopupMenuItem<Locale>(
+            value: locale,
+            checked:
+                LocaleController.currentLocale.value?.languageCode ==
+                locale.languageCode,
+            child: Text(LocaleController.languageDisplayName(locale)),
+          ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isNarrow = _isNarrow(context, l10n, isDark);
+    final headerBgColor =
+        isDark ? const Color(0xFF160B29) : const Color(0xFFEDE7F6);
     final currentInt = _fractionalN.floor();
     final activeNumber =
         _currentSieveNumber ?? _engine.getPlayedNumber(currentInt);
@@ -563,235 +876,56 @@ class _SieveHomeScreenState extends State<SieveHomeScreen>
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:
-            isDark ? const Color(0xFF160B29) : const Color(0xFFEDE7F6),
+        backgroundColor: headerBgColor,
         elevation: 0,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset('assets/icons/icon.png', width: 30, height: 30),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                l10n.appTitle,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  letterSpacing: 0.5,
-                  color: isDark
-                      ? const Color(0xFFE0D0FF)
-                      : const Color(0xFF2E1065),
-                ),
-              ),
-            ),
-          ],
-        ),
+        title: _buildAppTitle(context, l10n, isDark),
         actions: [
-          if (MediaQuery.sizeOf(context).width >= 650)
-            Tooltip(
-              message: AudioEngine.instance.playHarmonics
-                  ? l10n.harmonicsOffTooltip
-                  : l10n.harmonicsOnTooltip,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(8),
-                onTap: () {
-                  AudioEngine.instance.initOrResume();
-                  setState(() {
-                    AudioEngine.instance.toggleHarmonics();
-                  });
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 6,
-                    vertical: 8,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Checkbox(
-                        semanticLabel: l10n.harmonicsLabel,
-                        value: AudioEngine.instance.playHarmonics,
-                        activeColor: const Color(0xFF9D4EDD),
-                        checkColor: Colors.white,
-                        side: BorderSide(
-                          color: isDark
-                              ? const Color(0xFFD4C2FC)
-                              : const Color(0xFF7B2CBF),
-                          width: 1.5,
-                        ),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        visualDensity: VisualDensity.compact,
-                        onChanged: (val) {
-                          AudioEngine.instance.initOrResume();
-                          setState(() {
-                            AudioEngine.instance.playHarmonics = val ?? true;
-                          });
-                        },
-                      ),
-                      const SizedBox(width: 2),
-                      Text(
-                        l10n.harmonicsLabel,
-                        style: TextStyle(
-                          color: isDark
-                              ? const Color(0xFFD4C2FC)
-                              : const Color(0xFF5B21B6),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          IconButton(
-            icon: Icon(
-              AudioEngine.instance.isMuted || AudioEngine.instance.volume == 0
-                  ? Icons.volume_off
-                  : (AudioEngine.instance.volume < 0.5
-                        ? Icons.volume_down
-                        : Icons.volume_up),
-              color: isDark
-                  ? const Color(0xFFD4C2FC)
-                  : const Color(0xFF5B21B6),
-            ),
-            tooltip: AudioEngine.instance.isMuted
-                ? l10n.unmuteAudioTooltip
-                : l10n.muteAudioTooltip,
-            onPressed: () {
-              AudioEngine.instance.initOrResume();
-              setState(() {
-                AudioEngine.instance.toggleMute();
-              });
-            },
-          ),
-          if (MediaQuery.sizeOf(context).width >= 650)
-            // Master Volume Slider
-            Tooltip(
-              message: l10n.volumeTooltip(
-                (AudioEngine.instance.isMuted
-                        ? 0
-                        : (AudioEngine.instance.volume * 100))
-                    .round(),
-              ),
-              child: SizedBox(
-                width: 74,
-                child: SliderTheme(
-                  data: SliderTheme.of(context).copyWith(
-                    trackHeight: 3.5,
-                    thumbShape: const RoundSliderThumbShape(
-                      enabledThumbRadius: 6,
-                    ),
-                    overlayShape: const RoundSliderOverlayShape(
-                      overlayRadius: 12,
-                    ),
-                    activeTrackColor: isDark
-                        ? const Color(0xFF9D4EDD)
-                        : const Color(0xFF7B2CBF),
-                    inactiveTrackColor: isDark
-                        ? const Color(0xFF380C59)
-                        : const Color(0xFFD1C4E9),
-                    thumbColor: isDark
-                        ? const Color(0xFFD4C2FC)
-                        : const Color(0xFF5B21B6),
-                  ),
-                  child: Slider(
-                    value: AudioEngine.instance.isMuted
-                        ? 0.0
-                        : AudioEngine.instance.volume,
-                    min: 0.0,
-                    max: 1.0,
-                    onChanged: (val) {
-                      AudioEngine.instance.initOrResume();
-                      setState(() {
-                        AudioEngine.instance.setVolume(val);
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ),
-          IconButton(
-            icon: Icon(
-              Icons.groups_rounded,
-              color: isDark
-                  ? const Color(0xFF00B4D8)
-                  : const Color(0xFF0284C7),
-            ),
-            tooltip: l10n.multiplayerMatchTooltip,
-            onPressed: () => showMultiplayerDialog(
-              context,
-              onStartGame: () {
-                AudioEngine.instance.initOrResume();
-                setState(() {
-                  _clock.start();
-                });
-              },
-            ),
-          ),
-          if (MultiplayerEngine.instance.isInRoom) ...[
-            IconButton(
-              icon: const Icon(Icons.logout_rounded, color: Color(0xFFEF476F)),
-              tooltip: MultiplayerEngine.instance.isHost
-                  ? l10n.quitDisbandTooltip
-                  : l10n.quitLeaveTooltip,
-              onPressed: _leaveMultiplayerRoom,
-            ),
+          if (!isNarrow) ...[
+            ..._buildHeaderToolActions(context, l10n, isDark),
+            _buildThemeAction(l10n, isDark),
+            _buildHelpAction(context, l10n, isDark),
+            _buildLanguageAction(l10n, isDark),
+          ] else ...[
+            _buildHelpAction(context, l10n, isDark),
           ],
-          IconButton(
-            icon: Icon(
-              isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
-              color: isDark
-                  ? const Color(0xFFD4C2FC)
-                  : const Color(0xFF5B21B6),
-            ),
-            tooltip: isDark ? l10n.themeLightTooltip : l10n.themeDarkTooltip,
-            onPressed: () => ThemeController.toggleTheme(),
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.help_outline,
-              color: isDark
-                  ? const Color(0xFFD4C2FC)
-                  : const Color(0xFF5B21B6),
-            ),
-            tooltip: l10n.aboutAndHelpTooltip,
-            onPressed: () => showSieveAboutDialog(context),
-          ),
-          PopupMenuButton<Locale>(
-            icon: Icon(
-              Icons.language_rounded,
-              color: isDark
-                  ? const Color(0xFFD4C2FC)
-                  : const Color(0xFF5B21B6),
-            ),
-            tooltip: l10n.switchLanguageTooltip,
-            initialValue:
-                LocaleController.currentLocale.value ??
-                LocaleController.autoLocale,
-            onSelected: (loc) => LocaleController.setLocale(loc),
-            itemBuilder: (context) => [
-              CheckedPopupMenuItem<Locale>(
-                value: LocaleController.autoLocale,
-                checked: LocaleController.currentLocale.value == null,
-                child: Text(l10n.languageAuto),
-              ),
-              for (final locale in LocaleController.supportedLocales)
-                CheckedPopupMenuItem<Locale>(
-                  value: locale,
-                  checked:
-                      LocaleController.currentLocale.value?.languageCode ==
-                      locale.languageCode,
-                  child: Text(LocaleController.languageDisplayName(locale)),
-                ),
-            ],
-          ),
           const SizedBox(width: 8),
         ],
       ),
       body: SafeArea(
-        child: LayoutBuilder(
+        child: Column(
+          children: [
+            if (isNarrow)
+              Container(
+                key: const Key('narrow_header_bar'),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: headerBgColor,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: isDark
+                          ? const Color(0xFF380C59)
+                          : const Color(0xFFD1C4E9),
+                    ),
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ..._buildHeaderToolActions(context, l10n, isDark),
+                        _buildThemeAction(l10n, isDark),
+                        _buildLanguageAction(l10n, isDark),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            Expanded(
+              child: LayoutBuilder(
           builder: (context, constraints) {
             final textScale = MediaQuery.textScalerOf(context).scale(1.0);
             final isTall = constraints.maxHeight >= (650 * textScale);
@@ -1605,6 +1739,9 @@ class _SieveHomeScreenState extends State<SieveHomeScreen>
               );
             }
           },
+            ),
+          ),
+        ],
         ),
       ),
     );

@@ -10,6 +10,7 @@
   "allTimeAccuracy": "GESAMTGENAUIGKEIT",
   "analogyDialogTitle": "Audiovisuelle Analogie",
   "appTitle": "Sieb des Eratosthenes",
+  "appTitleShort": "Sieb",
   "bestStreak": "BESTE SERIE",
   "bestStreakSubtext": "Primzahlen in Folge",
   "cancel": "Abbrechen",

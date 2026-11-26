@@ -146,8 +146,13 @@ class _MultiplayerDialogState extends State<MultiplayerDialog>
     }
   }
 
+  static const String _defaultWebOrigin = 'https://sieve.gchouse.org';
+
   String _buildJoinUrl(String roomCode) {
-    final origin = Uri.base.origin;
+    final base = Uri.base;
+    final origin = (base.scheme == 'http' || base.scheme == 'https')
+        ? base.origin
+        : _defaultWebOrigin;
     return '$origin/?room=$roomCode';
   }
 
@@ -172,7 +177,7 @@ class _MultiplayerDialogState extends State<MultiplayerDialog>
 
     return StreamBuilder<RoomState?>(
       stream: MultiplayerEngine.instance.roomStream,
-      initialData: null,
+      initialData: MultiplayerEngine.instance.currentRoomState,
       builder: (context, snapshot) {
         final room = snapshot.data;
         final isInRoom = MultiplayerEngine.instance.isInRoom && room != null;
@@ -201,17 +206,20 @@ class _MultiplayerDialogState extends State<MultiplayerDialog>
                 size: 28,
               ),
               const SizedBox(width: 10),
-              Text(
-                isInRoom ? 'Lobby: Room ${room.code}' : 'Multiplayer Challenge',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: isDark
-                      ? const Color(0xFFE0D0FF)
-                      : const Color(0xFF2E1065),
+              Flexible(
+                child: Text(
+                  isInRoom ? 'Lobby: Room ${room.code}' : 'Multiplayer Challenge',
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: isDark
+                        ? const Color(0xFFE0D0FF)
+                        : const Color(0xFF2E1065),
+                  ),
                 ),
               ),
-              const Spacer(),
-              if (isInRoom)
+              if (isInRoom) ...[
+                const SizedBox(width: 8),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
@@ -240,6 +248,7 @@ class _MultiplayerDialogState extends State<MultiplayerDialog>
                     ),
                   ),
                 ),
+              ],
             ],
           ),
           content: SizedBox(
@@ -641,8 +650,11 @@ class _MultiplayerDialogState extends State<MultiplayerDialog>
         ),
         const SizedBox(height: 12),
         // QR Code & Sharing Row
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        Wrap(
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 16,
+          runSpacing: 10,
           children: [
             Container(
               padding: const EdgeInsets.all(6),
@@ -663,7 +675,6 @@ class _MultiplayerDialogState extends State<MultiplayerDialog>
                 backgroundColor: Colors.white,
               ),
             ),
-            const SizedBox(width: 16),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -749,6 +760,8 @@ class _MultiplayerDialogState extends State<MultiplayerDialog>
 
               return ListTile(
                 dense: true,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                horizontalTitleGap: 8,
                 leading: Icon(
                   player.isHost ? Icons.stars_rounded : Icons.person_rounded,
                   color: player.isHost
@@ -762,22 +775,27 @@ class _MultiplayerDialogState extends State<MultiplayerDialog>
                 ),
                 title: Row(
                   children: [
-                    Text(
-                      player.name,
-                      style: TextStyle(
-                        color: isMe
-                            ? (isDark
-                                  ? const Color(0xFF06D6A0)
-                                  : const Color(0xFF059669))
-                            : (isDark
-                                  ? Colors.white
-                                  : const Color(0xFF1F2937)),
-                        fontWeight: isMe ? FontWeight.bold : FontWeight.normal,
-                        fontSize: 13,
+                    Flexible(
+                      child: Text(
+                        player.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: isMe
+                              ? (isDark
+                                    ? const Color(0xFF06D6A0)
+                                    : const Color(0xFF059669))
+                              : (isDark
+                                    ? Colors.white
+                                    : const Color(0xFF1F2937)),
+                          fontWeight: isMe
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                          fontSize: 13,
+                        ),
                       ),
                     ),
                     if (isMe) ...[
-                      const SizedBox(width: 6),
+                      const SizedBox(width: 4),
                       Text(
                         context.l10n.multiplayerYouTag,
                         style: TextStyle(

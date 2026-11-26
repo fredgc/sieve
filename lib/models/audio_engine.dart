@@ -1,5 +1,5 @@
 import 'sieve_engine.dart';
-import 'audio_engine_stub.dart'
+import 'audio_engine_native.dart'
     if (dart.library.js_interop) 'audio_engine_web.dart';
 
 /// Universal Audio Engine singleton for polyphonic harmonic sieve playback.

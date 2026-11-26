@@ -44,6 +44,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get appTitle => 'Crivo de Eratóstenes';
 
   @override
+  String get appTitleShort => 'Crivo';
+
+  @override
   String get bestStreak => 'MELHOR SEQUÊNCIA';
 
   @override

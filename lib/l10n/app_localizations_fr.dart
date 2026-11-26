@@ -44,6 +44,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get appTitle => 'Crible d\'Ératosthène';
 
   @override
+  String get appTitleShort => 'Crible';
+
+  @override
   String get bestStreak => 'MEILLEURE SÉRIE';
 
   @override

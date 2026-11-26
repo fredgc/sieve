@@ -44,6 +44,9 @@ class AppLocalizationsLt extends AppLocalizations {
   String get appTitle => 'Eratosteno rėtis';
 
   @override
+  String get appTitleShort => 'Rėtis';
+
+  @override
   String get bestStreak => 'GERIAUSIA SERIJA';
 
   @override
